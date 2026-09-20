@@ -37,7 +37,7 @@ export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
   return (
     <section className="animate-page-in">
       <div className="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-        <div><p className="mb-1 text-sm font-medium text-primary">Gestão operacional</p><h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">{area.nome}</h2><p className="mt-2 text-sm text-muted-foreground">{area.descricao}</p></div>
+        <div><p className="mb-1 text-sm font-medium text-primary">Gestão do hemocentro</p><h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">{area.nome}</h2><p className="mt-2 text-sm text-muted-foreground">{area.descricao}</p></div>
         <Button onClick={() => setModal({ tipo: "criar" })}><Plus />Adicionar {area.singular}</Button>
       </div>
       <div className="overflow-hidden rounded-lg border bg-card shadow-panel">
