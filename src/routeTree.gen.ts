@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CampanhasRouteImport } from './routes/campanhas'
+import { Route as CidadesRouteImport } from './routes/cidades'
+import { Route as EstoqueRouteImport } from './routes/estoque'
+import { Route as LocaisDeColetaRouteImport } from './routes/locais-de-coleta'
+import { Route as ParceriasRouteImport } from './routes/parcerias'
+import { Route as UnidadesMoveisRouteImport } from './routes/unidades-moveis'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampanhasRoute = CampanhasRouteImport.update({
+  id: '/campanhas',
+  path: '/campanhas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CidadesRoute = CidadesRouteImport.update({
+  id: '/cidades',
+  path: '/cidades',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EstoqueRoute = EstoqueRouteImport.update({
+  id: '/estoque',
+  path: '/estoque',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaisDeColetaRoute = LocaisDeColetaRouteImport.update({
+  id: '/locais-de-coleta',
+  path: '/locais-de-coleta',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParceriasRoute = ParceriasRouteImport.update({
+  id: '/parcerias',
+  path: '/parcerias',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UnidadesMoveisRoute = UnidadesMoveisRouteImport.update({
+  id: '/unidades-moveis',
+  path: '/unidades-moveis',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/campanhas': typeof CampanhasRoute
+  '/cidades': typeof CidadesRoute
+  '/estoque': typeof EstoqueRoute
+  '/locais-de-coleta': typeof LocaisDeColetaRoute
+  '/parcerias': typeof ParceriasRoute
+  '/unidades-moveis': typeof UnidadesMoveisRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/campanhas': typeof CampanhasRoute
+  '/cidades': typeof CidadesRoute
+  '/estoque': typeof EstoqueRoute
+  '/locais-de-coleta': typeof LocaisDeColetaRoute
+  '/parcerias': typeof ParceriasRoute
+  '/unidades-moveis': typeof UnidadesMoveisRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/campanhas': typeof CampanhasRoute
+  '/cidades': typeof CidadesRoute
+  '/estoque': typeof EstoqueRoute
+  '/locais-de-coleta': typeof LocaisDeColetaRoute
+  '/parcerias': typeof ParceriasRoute
+  '/unidades-moveis': typeof UnidadesMoveisRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/campanhas'
+    | '/cidades'
+    | '/estoque'
+    | '/locais-de-coleta'
+    | '/parcerias'
+    | '/unidades-moveis'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/campanhas'
+    | '/cidades'
+    | '/estoque'
+    | '/locais-de-coleta'
+    | '/parcerias'
+    | '/unidades-moveis'
+  id:
+    | '__root__'
+    | '/'
+    | '/campanhas'
+    | '/cidades'
+    | '/estoque'
+    | '/locais-de-coleta'
+    | '/parcerias'
+    | '/unidades-moveis'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CampanhasRoute: typeof CampanhasRoute
+  CidadesRoute: typeof CidadesRoute
+  EstoqueRoute: typeof EstoqueRoute
+  LocaisDeColetaRoute: typeof LocaisDeColetaRoute
+  ParceriasRoute: typeof ParceriasRoute
+  UnidadesMoveisRoute: typeof UnidadesMoveisRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campanhas': {
+      id: '/campanhas'
+      path: '/campanhas'
+      fullPath: '/campanhas'
+      preLoaderRoute: typeof CampanhasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cidades': {
+      id: '/cidades'
+      path: '/cidades'
+      fullPath: '/cidades'
+      preLoaderRoute: typeof CidadesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/estoque': {
+      id: '/estoque'
+      path: '/estoque'
+      fullPath: '/estoque'
+      preLoaderRoute: typeof EstoqueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locais-de-coleta': {
+      id: '/locais-de-coleta'
+      path: '/locais-de-coleta'
+      fullPath: '/locais-de-coleta'
+      preLoaderRoute: typeof LocaisDeColetaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parcerias': {
+      id: '/parcerias'
+      path: '/parcerias'
+      fullPath: '/parcerias'
+      preLoaderRoute: typeof ParceriasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/unidades-moveis': {
+      id: '/unidades-moveis'
+      path: '/unidades-moveis'
+      fullPath: '/unidades-moveis'
+      preLoaderRoute: typeof UnidadesMoveisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CampanhasRoute: CampanhasRoute,
+  CidadesRoute: CidadesRoute,
+  EstoqueRoute: EstoqueRoute,
+  LocaisDeColetaRoute: LocaisDeColetaRoute,
+  ParceriasRoute: ParceriasRoute,
+  UnidadesMoveisRoute: UnidadesMoveisRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
