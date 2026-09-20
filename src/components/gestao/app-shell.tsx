@@ -1,5 +1,5 @@
 import { Link, linkOptions, useRouterState } from "@tanstack/react-router";
-import { Box, Building2, CalendarDays, ChevronDown, Handshake, LayoutDashboard, MapPin, Menu, PackageOpen, Search, Truck, X } from "lucide-react";
+import { Box, Building2, CalendarDays, ChevronDown, Droplets, Handshake, LayoutDashboard, MapPin, Menu, Search, Truck, X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -24,8 +24,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       <aside className={cn("fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-sidebar-border bg-sidebar transition-transform lg:translate-x-0", aberto ? "translate-x-0" : "-translate-x-full")}>
         <div className="flex h-18 items-center justify-between border-b border-sidebar-border px-5">
           <Link to="/" className="flex items-center gap-3" onClick={() => setAberto(false)}>
-            <span className="flex size-10 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground shadow-brand"><PackageOpen className="size-5" /></span>
-            <span><strong className="block text-base font-semibold text-sidebar-foreground">Coleta Azul</strong><span className="block text-xs text-sidebar-muted">Gestão integrada</span></span>
+             <span className="flex size-10 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground shadow-brand"><Droplets className="size-5" /></span>
+             <span><strong className="block text-base font-semibold text-sidebar-foreground">Hemocentro Vida</strong><span className="block text-xs text-sidebar-muted">Gestão de estoque</span></span>
           </Link>
           <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setAberto(false)} aria-label="Fechar menu"><X /></Button>
         </div>
@@ -47,7 +47,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="lg:pl-64">
         <header className="sticky top-0 z-20 flex h-18 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur sm:px-7">
           <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setAberto(true)} aria-label="Abrir menu"><Menu /></Button>
-          <div className="min-w-0 flex-1"><p className="text-xs text-muted-foreground">Painel administrativo</p><h1 className="truncate text-base font-semibold">{atual}</h1></div>
+           <div className="min-w-0 flex-1"><p className="text-xs text-muted-foreground">Controle do hemocentro</p><h1 className="truncate text-base font-semibold">{atual}</h1></div>
           <div className="hidden w-72 items-center gap-2 rounded-md border bg-muted/40 px-3 sm:flex"><Search className="size-4 text-muted-foreground"/><input className="h-9 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground" placeholder="Buscar no sistema..." /></div>
           <span className="flex size-9 items-center justify-center rounded-full bg-avatar text-sm font-semibold text-primary sm:hidden">AM</span>
         </header>
