@@ -1,10 +1,10 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, linkOptions, useRouterState } from "@tanstack/react-router";
 import { Box, Building2, CalendarDays, ChevronDown, Handshake, LayoutDashboard, MapPin, Menu, PackageOpen, Search, Truck, X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const itens = [
+const itens = linkOptions([
   { to: "/", label: "Visão geral", icon: LayoutDashboard },
   { to: "/estoque", label: "Estoque", icon: Box },
   { to: "/unidades-moveis", label: "Unidades móveis", icon: Truck },
@@ -12,7 +12,7 @@ const itens = [
   { to: "/cidades", label: "Cidades", icon: Building2 },
   { to: "/parcerias", label: "Parcerias", icon: Handshake },
   { to: "/campanhas", label: "Campanhas", icon: CalendarDays },
-] as const;
+] as const);
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [aberto, setAberto] = useState(false);
