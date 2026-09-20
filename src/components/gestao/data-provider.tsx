@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import { dadosIniciais, type AreaKey, type Registro } from "@/lib/gestao-data";
+import { type AreaKey, type Registro } from "@/lib/gestao-data";
 
 type DataContextValue = {
   dados: Record<AreaKey, Registro[]>;
@@ -9,8 +9,25 @@ type DataContextValue = {
 
 const DataContext = createContext<DataContextValue | undefined>(undefined);
 
+const tiposSanguineos = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+
+const dadosVazios: Record<AreaKey, Registro[]> = {
+  estoque: tiposSanguineos.map((tipo) => ({
+    id: `estoque-${tipo}`,
+    nome: tipo,
+    porcentagem: "0",
+    unidade: "Banco de sangue",
+    status: "Disponível",
+  })),
+  unidades: [],
+  locais: [],
+  cidades: [],
+  parcerias: [],
+  campanhas: [],
+};
+
 export function DataProvider({ children }: { children: ReactNode }) {
-  const [dados, setDados] = useState(dadosIniciais);
+  const [dados, setDados] = useState(dadosVazios);
   const salvar = (area: AreaKey, registro: Registro) => setDados((atual) => ({
     ...atual,
     [area]: atual[area].some((item) => item.id === registro.id)
