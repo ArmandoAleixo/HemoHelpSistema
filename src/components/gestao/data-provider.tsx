@@ -21,7 +21,6 @@ const dadosVazios: Record<AreaKey, Registro[]> = {
   })),
   unidades: [],
   locais: [],
-  cidades: [],
   parcerias: [],
   campanhas: [],
 };

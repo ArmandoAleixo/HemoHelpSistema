@@ -1,5 +1,5 @@
 export type Registro = { id: string; [key: string]: string };
-export type AreaKey = "estoque" | "unidades" | "locais" | "cidades" | "parcerias" | "campanhas";
+export type AreaKey = "estoque" | "unidades" | "locais" | "parcerias" | "campanhas";
 export type Campo = { key: string; label: string; type?: string; options?: string[] };
 export type Area = {
   key: AreaKey;
@@ -42,7 +42,6 @@ export const areas: Area[] = [
     descricao: "Postos fixos e temporários para doação de sangue",
     campos: [
       { key: "nome", label: "Local" },
-      { key: "cidade", label: "Cidade" },
       { key: "endereco", label: "Endereço" },
       { key: "horario", label: "Horário" },
       { key: "status", label: "Status", options: ["Ativo", "Pausado"] },
@@ -81,7 +80,6 @@ export const areas: Area[] = [
     descricao: "Ações de doação de sangue e mobilização de doadores",
     campos: [
       { key: "nome", label: "Campanha" },
-      { key: "cidade", label: "Cidade" },
       { key: "meta", label: "Meta" },
       { key: "inicio", label: "Início", type: "date" },
       { key: "status", label: "Status", options: ["Ativa", "Agendada", "Finalizada"] },

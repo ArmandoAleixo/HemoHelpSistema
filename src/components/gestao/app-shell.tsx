@@ -1,5 +1,5 @@
 import { Link, linkOptions } from "@tanstack/react-router";
-import { Box, Building2, CalendarDays, Droplets, Handshake, LayoutDashboard, MapPin, Menu, Truck, X } from "lucide-react";
+import { Box, CalendarDays, Droplets, Handshake, LayoutDashboard, MapPin, Menu, Truck, X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -9,7 +9,6 @@ const itens = linkOptions([
   { to: "/estoque", label: "Estoque", icon: Box },
   { to: "/unidades-moveis", label: "Unidades móveis", icon: Truck },
   { to: "/locais-de-coleta", label: "Locais de coleta", icon: MapPin },
-  { to: "/cidades", label: "Cidades", icon: Building2 },
   { to: "/parcerias", label: "Parcerias", icon: Handshake },
   { to: "/campanhas", label: "Campanhas", icon: CalendarDays },
 ] as const);
