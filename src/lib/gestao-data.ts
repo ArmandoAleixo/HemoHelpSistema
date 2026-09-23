@@ -48,19 +48,6 @@ export const areas: Area[] = [
     ],
   },
   {
-    key: "cidades",
-    nome: "Cidades",
-    singular: "cidade",
-    descricao: "Municípios atendidos pelo hemocentro",
-    campos: [
-      { key: "nome", label: "Cidade" },
-      { key: "uf", label: "UF" },
-      { key: "pontos", label: "Pontos", type: "number" },
-      { key: "responsavel", label: "Coordenador" },
-      { key: "status", label: "Status", options: ["Ativa", "Planejada"] },
-    ],
-  },
-  {
     key: "parcerias",
     nome: "Parcerias",
     singular: "parceria",
