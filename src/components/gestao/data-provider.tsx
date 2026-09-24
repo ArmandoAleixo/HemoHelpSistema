@@ -23,19 +23,24 @@ const dadosVazios: Record<AreaKey, Registro[]> = {
   locais: [],
   parcerias: [],
   campanhas: [],
+  doadores: [],
+  agentes: [],
 };
 
 export function DataProvider({ children }: { children: ReactNode }) {
   const [dados, setDados] = useState(dadosVazios);
-  const salvar = (area: AreaKey, registro: Registro) => setDados((atual) => ({
-    ...atual,
-    [area]: atual[area].some((item) => item.id === registro.id)
-      ? atual[area].map((item) => item.id === registro.id ? registro : item)
-      : [registro, ...atual[area]],
-  }));
-  const excluir = (area: AreaKey, id: string) => setDados((atual) => ({
-    ...atual, [area]: atual[area].filter((item) => item.id !== id),
-  }));
+  const salvar = (area: AreaKey, registro: Registro) =>
+    setDados((atual) => ({
+      ...atual,
+      [area]: atual[area].some((item) => item.id === registro.id)
+        ? atual[area].map((item) => (item.id === registro.id ? registro : item))
+        : [registro, ...atual[area]],
+    }));
+  const excluir = (area: AreaKey, id: string) =>
+    setDados((atual) => ({
+      ...atual,
+      [area]: atual[area].filter((item) => item.id !== id),
+    }));
   return <DataContext.Provider value={{ dados, salvar, excluir }}>{children}</DataContext.Provider>;
 }
 

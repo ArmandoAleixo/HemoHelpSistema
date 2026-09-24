@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CadastrosRouteImport } from './routes/cadastros'
 import { Route as CampanhasRouteImport } from './routes/campanhas'
 import { Route as EstoqueRouteImport } from './routes/estoque'
 import { Route as LocaisDeColetaRouteImport } from './routes/locais-de-coleta'
@@ -19,6 +20,11 @@ import { Route as UnidadesMoveisRouteImport } from './routes/unidades-moveis'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CadastrosRoute = CadastrosRouteImport.update({
+  id: '/cadastros',
+  path: '/cadastros',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CampanhasRoute = CampanhasRouteImport.update({
@@ -49,6 +55,7 @@ const UnidadesMoveisRoute = UnidadesMoveisRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cadastros': typeof CadastrosRoute
   '/campanhas': typeof CampanhasRoute
   '/estoque': typeof EstoqueRoute
   '/locais-de-coleta': typeof LocaisDeColetaRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cadastros': typeof CadastrosRoute
   '/campanhas': typeof CampanhasRoute
   '/estoque': typeof EstoqueRoute
   '/locais-de-coleta': typeof LocaisDeColetaRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cadastros': typeof CadastrosRoute
   '/campanhas': typeof CampanhasRoute
   '/estoque': typeof EstoqueRoute
   '/locais-de-coleta': typeof LocaisDeColetaRoute
@@ -76,6 +85,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cadastros'
     | '/campanhas'
     | '/estoque'
     | '/locais-de-coleta'
@@ -84,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cadastros'
     | '/campanhas'
     | '/estoque'
     | '/locais-de-coleta'
@@ -92,6 +103,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/cadastros'
     | '/campanhas'
     | '/estoque'
     | '/locais-de-coleta'
@@ -101,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CadastrosRoute: typeof CadastrosRoute
   CampanhasRoute: typeof CampanhasRoute
   EstoqueRoute: typeof EstoqueRoute
   LocaisDeColetaRoute: typeof LocaisDeColetaRoute
@@ -115,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cadastros': {
+      id: '/cadastros'
+      path: '/cadastros'
+      fullPath: '/cadastros'
+      preLoaderRoute: typeof CadastrosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/campanhas': {
@@ -157,6 +177,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CadastrosRoute: CadastrosRoute,
   CampanhasRoute: CampanhasRoute,
   EstoqueRoute: EstoqueRoute,
   LocaisDeColetaRoute: LocaisDeColetaRoute,
