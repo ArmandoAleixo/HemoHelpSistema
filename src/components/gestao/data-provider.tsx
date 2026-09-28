@@ -1,10 +1,11 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { type AreaKey, type Registro } from "@/lib/gestao-data";
+import * as api from "@/lib/api";
 
 type DataContextValue = {
   dados: Record<AreaKey, Registro[]>;
-  salvar: (area: AreaKey, registro: Registro) => void;
-  excluir: (area: AreaKey, id: string) => void;
+  salvar: (area: AreaKey, registro: Registro) => Promise<void>;
+  excluir: (area: AreaKey, id: string) => Promise<void>;
 };
 
 const DataContext = createContext<DataContextValue | undefined>(undefined);
@@ -27,20 +28,65 @@ const dadosVazios: Record<AreaKey, Registro[]> = {
   agentes: [],
 };
 
+function combinarEstoqueComTiposPadrao(registros: Registro[]) {
+  return tiposSanguineos.map((tipo) => {
+    const registroSalvo = registros.find((registro) => registro.nome === tipo);
+    return registroSalvo ?? dadosVazios.estoque.find((registro) => registro.nome === tipo)!;
+  });
+}
+
 export function DataProvider({ children }: { children: ReactNode }) {
   const [dados, setDados] = useState(dadosVazios);
-  const salvar = (area: AreaKey, registro: Registro) =>
-    setDados((atual) => ({
-      ...atual,
-      [area]: atual[area].some((item) => item.id === registro.id)
-        ? atual[area].map((item) => (item.id === registro.id ? registro : item))
-        : [registro, ...atual[area]],
-    }));
-  const excluir = (area: AreaKey, id: string) =>
+
+  useEffect(() => {
+    let montado = true;
+    const carregarDados = async () => {
+      const entradas = await Promise.all(
+        (Object.keys(dadosVazios) as AreaKey[]).map(async (area) => {
+          try {
+            const registros = await api.listar(area);
+            return [
+              area,
+              area === "estoque" ? combinarEstoqueComTiposPadrao(registros) : registros,
+            ] as const;
+          } catch (error) {
+            console.warn(`Nao foi possivel carregar ${area} da API.`, error);
+            return [area, dadosVazios[area]] as const;
+          }
+        }),
+      );
+
+      if (montado) setDados(Object.fromEntries(entradas) as Record<AreaKey, Registro[]>);
+    };
+
+    void carregarDados();
+    return () => {
+      montado = false;
+    };
+  }, []);
+
+  const salvar = async (area: AreaKey, registro: Registro) => {
+    const registroSalvo = await api.salvar(area, registro);
+
+    setDados((atual) => {
+      const indiceExistente = atual[area].findIndex(
+        (item) => item.id === registro.id || (area === "estoque" && item.nome === registro.nome),
+      );
+      const registros = [...atual[area]];
+      if (indiceExistente >= 0) registros[indiceExistente] = registroSalvo;
+      else registros.unshift(registroSalvo);
+      return { ...atual, [area]: registros };
+    });
+  };
+
+  const excluir = async (area: AreaKey, id: string) => {
+    await api.excluir(area, id);
+
     setDados((atual) => ({
       ...atual,
       [area]: atual[area].filter((item) => item.id !== id),
     }));
+  };
   return <DataContext.Provider value={{ dados, salvar, excluir }}>{children}</DataContext.Provider>;
 }
 

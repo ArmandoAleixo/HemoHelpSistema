@@ -1,5 +1,6 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { Eye, MoreHorizontal, Pencil, Plus, Search, SlidersHorizontal, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -23,6 +24,7 @@ export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
   const [busca, setBusca] = useState("");
   const [filtro, setFiltro] = useState("Todos");
   const [modal, setModal] = useState<Modal>(null);
+  const [salvando, setSalvando] = useState(false);
 
   if (!area) return null;
 
@@ -38,7 +40,7 @@ export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
     [busca, filtro, registros],
   );
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const registro: Registro = { id: modal?.registro?.id ?? crypto.randomUUID() };
@@ -49,8 +51,16 @@ export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
       if (modal?.registro) registro.nome = modal.registro.nome;
       registro.status = statusDoEstoque(registro);
     }
-    salvar(areaKey, registro);
-    setModal(null);
+    setSalvando(true);
+    try {
+      await salvar(areaKey, registro);
+      toast.success("Registro salvo no banco de dados.");
+      setModal(null);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Nao foi possivel salvar no banco.");
+    } finally {
+      setSalvando(false);
+    }
   };
 
   return (
@@ -249,7 +259,11 @@ export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
                 <Button type="button" variant="outline" onClick={() => setModal(null)}>
                   {modal?.tipo === "ver" ? "Fechar" : "Cancelar"}
                 </Button>
-                {modal?.tipo !== "ver" && <Button type="submit">Salvar</Button>}
+                {modal?.tipo !== "ver" && (
+                  <Button type="submit" disabled={salvando}>
+                    {salvando ? "Salvando..." : "Salvar"}
+                  </Button>
+                )}
               </DialogFooter>
             </form>
           )}
