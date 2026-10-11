@@ -9,6 +9,7 @@ import {
   idValido,
   listarRecurso,
   validarDados,
+  validarRelacionamentos,
 } from "../repositories/resource-repository.js";
 
 function localizarRecurso(pathname) {
@@ -67,6 +68,12 @@ export async function rotearApi(request, response) {
   const erroValidacao = validarDados(body, recurso.camposObrigatorios);
   if (erroValidacao) {
     responder(response, 400, { erro: erroValidacao });
+    return;
+  }
+
+  const erroRelacionamento = await validarRelacionamentos(recurso, body);
+  if (erroRelacionamento) {
+    responder(response, 400, { erro: erroRelacionamento });
     return;
   }
 

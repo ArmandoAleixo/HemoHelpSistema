@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
+import { LoadingScreen } from "@/components/gestao/loading-screen";
 import { TIPOS_SANGUINEOS } from "../domain/estoque";
 import type { AreaKey, Registro } from "../domain/models";
 import * as api from "../services/gestao-api";
@@ -29,6 +30,7 @@ function combinarEstoqueComTiposPadrao(registros: Registro[]) {
 
 export function DataProvider({ children }: { children: ReactNode }) {
   const [dados, setDados] = useState(dadosIniciais);
+  const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
     let montado = true;
@@ -49,7 +51,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
         }),
       );
 
-      if (montado) setDados(Object.fromEntries(entradas) as Record<AreaKey, Registro[]>);
+      if (montado) {
+        setDados(Object.fromEntries(entradas) as Record<AreaKey, Registro[]>);
+        setCarregando(false);
+      }
     }
 
     void carregarDados();
@@ -57,6 +62,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
       montado = false;
     };
   }, []);
+
+  if (carregando) return <LoadingScreen />;
 
   async function salvar(area: AreaKey, registro: Registro) {
     const registroSalvo = await api.salvar(area, registro);

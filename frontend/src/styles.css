@@ -179,6 +179,15 @@
   animation: page-in 280ms ease-out both;
 }
 
+@keyframes loading-bar {
+  from { transform: translateX(-150%); }
+  to { transform: translateX(275%); }
+}
+
+.loading-bar-progress {
+  animation: loading-bar 1.4s ease-in-out infinite;
+}
+
 @keyframes bolsa-alerta {
   0%, 100% {
     filter: drop-shadow(0 0 4px oklch(0.32 0.18 25 / 85%)) drop-shadow(0 0 10px oklch(0.38 0.2 25 / 60%));
