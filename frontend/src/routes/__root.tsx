@@ -1,11 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
-  Link,
+  Link as RouterLink,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
-  Scripts,
+  Scripts as AppScripts,
 } from "@tanstack/react-router";
 import { type ReactNode } from "react";
 
@@ -13,6 +14,9 @@ import appCss from "../styles.css?url";
 import { AppShell } from "@/components/gestao/app-shell";
 import { Toaster } from "@/components/ui/sonner";
 import { DataProvider } from "@/features/gestao/context/data-provider";
+
+// Páginas da Landing Page: abrem sem o menu do painel
+const LANDING_ROUTES = ["/sobre"];
 
 function NotFoundComponent() {
   return (
@@ -24,12 +28,12 @@ function NotFoundComponent() {
           The page you're looking for doesn't exist or has been moved.
         </p>
         <div className="mt-6">
-          <Link
+          <RouterLink
             to="/"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Go home
-          </Link>
+          </RouterLink>
         </div>
       </div>
     </div>
@@ -86,7 +90,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap",
+      },
       {
         rel: "stylesheet",
         href: appCss,
@@ -108,7 +115,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
-        <Scripts />
+        <AppScripts />
       </body>
     </html>
   );
@@ -116,11 +123,19 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isLanding = LANDING_ROUTES.includes(pathname);
 
   return (
     <QueryClientProvider client={queryClient}>
       <DataProvider>
-        <AppShell><Outlet /></AppShell>
+        {isLanding ? (
+          <Outlet />
+        ) : (
+          <AppShell>
+            <Outlet />
+          </AppShell>
+        )}
         <Toaster />
       </DataProvider>
     </QueryClientProvider>

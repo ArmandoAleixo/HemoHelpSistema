@@ -15,6 +15,7 @@ import { Route as CampanhasRouteImport } from './routes/campanhas'
 import { Route as EstoqueRouteImport } from './routes/estoque'
 import { Route as LocaisDeColetaRouteImport } from './routes/locais-de-coleta'
 import { Route as ParceriasRouteImport } from './routes/parcerias'
+import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as UnidadesMoveisRouteImport } from './routes/unidades-moveis'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const ParceriasRoute = ParceriasRouteImport.update({
   path: '/parcerias',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UnidadesMoveisRoute = UnidadesMoveisRouteImport.update({
   id: '/unidades-moveis',
   path: '/unidades-moveis',
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/estoque': typeof EstoqueRoute
   '/locais-de-coleta': typeof LocaisDeColetaRoute
   '/parcerias': typeof ParceriasRoute
+  '/sobre': typeof SobreRoute
   '/unidades-moveis': typeof UnidadesMoveisRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/estoque': typeof EstoqueRoute
   '/locais-de-coleta': typeof LocaisDeColetaRoute
   '/parcerias': typeof ParceriasRoute
+  '/sobre': typeof SobreRoute
   '/unidades-moveis': typeof UnidadesMoveisRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/estoque': typeof EstoqueRoute
   '/locais-de-coleta': typeof LocaisDeColetaRoute
   '/parcerias': typeof ParceriasRoute
+  '/sobre': typeof SobreRoute
   '/unidades-moveis': typeof UnidadesMoveisRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/estoque'
     | '/locais-de-coleta'
     | '/parcerias'
+    | '/sobre'
     | '/unidades-moveis'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/estoque'
     | '/locais-de-coleta'
     | '/parcerias'
+    | '/sobre'
     | '/unidades-moveis'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/estoque'
     | '/locais-de-coleta'
     | '/parcerias'
+    | '/sobre'
     | '/unidades-moveis'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   EstoqueRoute: typeof EstoqueRoute
   LocaisDeColetaRoute: typeof LocaisDeColetaRoute
   ParceriasRoute: typeof ParceriasRoute
+  SobreRoute: typeof SobreRoute
   UnidadesMoveisRoute: typeof UnidadesMoveisRoute
 }
 
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParceriasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/unidades-moveis': {
       id: '/unidades-moveis'
       path: '/unidades-moveis'
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   EstoqueRoute: EstoqueRoute,
   LocaisDeColetaRoute: LocaisDeColetaRoute,
   ParceriasRoute: ParceriasRoute,
+  SobreRoute: SobreRoute,
   UnidadesMoveisRoute: UnidadesMoveisRoute,
 }
 export const routeTree = rootRouteImport
