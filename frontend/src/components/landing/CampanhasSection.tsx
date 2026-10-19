@@ -1,6 +1,4 @@
-import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 // Dados de exemplo. Depois podem vir da API de campanhas.
 const CAMPANHAS = [
@@ -37,11 +35,6 @@ export function CampanhasSection() {
               Campanhas em destaque
             </h2>
           </div>
-          <Button asChild variant="ghost" className="hidden rounded-full text-primary sm:flex">
-            <Link to="/campanhas">
-              Ver todas <ArrowRight />
-            </Link>
-          </Button>
         </div>
 
         <div className="grid gap-5 md:grid-cols-3">
