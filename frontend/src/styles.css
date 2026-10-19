@@ -171,8 +171,14 @@
 }
 
 @keyframes page-in {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @utility animate-page-in {
@@ -180,8 +186,12 @@
 }
 
 @keyframes loading-bar {
-  from { transform: translateX(-150%); }
-  to { transform: translateX(275%); }
+  from {
+    transform: translateX(-150%);
+  }
+  to {
+    transform: translateX(275%);
+  }
 }
 
 .loading-bar-progress {
@@ -189,11 +199,14 @@
 }
 
 @keyframes bolsa-alerta {
-  0%, 100% {
-    filter: drop-shadow(0 0 4px oklch(0.32 0.18 25 / 85%)) drop-shadow(0 0 10px oklch(0.38 0.2 25 / 60%));
+  0%,
+  100% {
+    filter: drop-shadow(0 0 4px oklch(0.32 0.18 25 / 85%))
+      drop-shadow(0 0 10px oklch(0.38 0.2 25 / 60%));
   }
   50% {
-    filter: drop-shadow(0 0 9px oklch(0.28 0.2 25 / 100%)) drop-shadow(0 0 24px oklch(0.38 0.22 25 / 85%));
+    filter: drop-shadow(0 0 9px oklch(0.28 0.2 25 / 100%))
+      drop-shadow(0 0 24px oklch(0.38 0.22 25 / 85%));
   }
 }
 
@@ -202,5 +215,20 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Tema da Landing Page: vermelho sangue, só dentro de .landing */
+.landing {
+  --primary: oklch(0.5 0.17 22);
+  --primary-foreground: oklch(0.99 0.005 20);
+  --primary-soft: oklch(0.96 0.025 20);
+  --ring: oklch(0.5 0.17 22);
+  --background: oklch(0.985 0.004 20);
+  --shadow-brand: 0 8px 24px oklch(0.5 0.17 22 / 18%);
 }
