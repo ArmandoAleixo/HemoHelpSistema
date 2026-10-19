@@ -8,6 +8,8 @@ const frontendSource = fileURLToPath(new URL("./frontend/src", import.meta.url))
 
 export default defineConfig({
   resolve: { alias: { "@": frontendSource } },
+  // Arquivos estáticos (imagens, favicon) ficam em frontend/public
+  publicDir: "frontend/public",
   plugins: [
     tailwindcss(),
     tanstackStart({
