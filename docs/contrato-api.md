@@ -21,9 +21,157 @@ apenas as descreve.
 
 ---
 
+## Autenticação do doador (UC06)
+
+- Coleção: `DoadoresCCadastro`
+- O doador é identificado por `email` (único, obrigatório para este fluxo).
+- `senhaHash` é gravado com bcrypt e **nunca** aparece em nenhuma resposta da API.
+- O login devolve um JWT assinado com `JWT_SECRET` (do `.env`), com validade de **1 dia**.
+- Rotas protegidas usam o cabeçalho `Authorization: Bearer <token>`.
+- No MongoDB o tipo sanguíneo fica no campo `tipo` (compatível com o painel de gestão); nas
+  rotas de autenticação ele é exposto como `tipoSanguineo`.
+
+Campos do doador:
+
+| Campo           | Obrigatório        | Observação                          |
+| --------------- | ------------------ | ----------------------------------- |
+| `nome`          | sim (cadastro)     | string                              |
+| `email`         | sim (cadastro)     | único, sem diferenciar maiúsculas   |
+| `tipoSanguineo` | sim (cadastro)     | string, gravado em `tipo`           |
+| `senha`         | sim (cadastro)     | mínimo de 6 caracteres, só é gravada como `senhaHash` |
+| `cpf`           | não                | string                              |
+| `telefone`      | não                | string                              |
+| `status`        | gerado pelo sistema| inicia como `Em triagem`            |
+
+### POST `/api/doador/cadastro`
+
+Cria a conta do doador.
+
+Pedido:
+
+```http
+POST /api/doador/cadastro
+Content-Type: application/json
+
+{
+  "nome": "Marina Alves",
+  "email": "marina.alves@email.com",
+  "tipoSanguineo": "O-",
+  "senha": "segredo123",
+  "cpf": "123.456.789-00",
+  "telefone": "(83) 99999-0000"
+}
+```
+
+`201 Created`:
+
+```json
+{
+  "id": "6750f1c2e4b0a1d2c3e4f5a6",
+  "nome": "Marina Alves",
+  "email": "marina.alves@email.com",
+  "tipoSanguineo": "O-",
+  "cpf": "123.456.789-00",
+  "telefone": "(83) 99999-0000",
+  "status": "Em triagem",
+  "createdAt": "2026-11-08T12:00:00.000Z",
+  "updatedAt": "2026-11-08T12:00:00.000Z"
+}
+```
+
+Erros:
+
+| Código | Quando                                   | Corpo                                                              |
+| ------ | ---------------------------------------- | ------------------------------------------------------------------ |
+| `400`  | `nome`, `email`, `tipoSanguineo` ou `senha` ausente/vazio | `{ "erro": "Campos obrigatórios ausentes: email, senha." }` |
+| `400`  | senha com menos de 6 caracteres          | `{ "erro": "A senha deve ter no mínimo 6 caracteres." }`           |
+| `400`  | e-mail com formato inválido              | `{ "erro": "Informe um e-mail válido." }`                          |
+| `409`  | e-mail já cadastrado                     | `{ "erro": "E-mail já cadastrado. Deseja recuperar a senha?" }`    |
+
+### POST `/api/doador/login`
+
+Pedido:
+
+```http
+POST /api/doador/login
+Content-Type: application/json
+
+{
+  "email": "marina.alves@email.com",
+  "senha": "segredo123"
+}
+```
+
+`200 OK`:
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "doador": {
+    "id": "6750f1c2e4b0a1d2c3e4f5a6",
+    "nome": "Marina Alves",
+    "email": "marina.alves@email.com",
+    "tipoSanguineo": "O-",
+    "cpf": "123.456.789-00",
+    "telefone": "(83) 99999-0000",
+    "status": "Em triagem",
+    "createdAt": "2026-11-08T12:00:00.000Z",
+    "updatedAt": "2026-11-08T12:00:00.000Z"
+  }
+}
+```
+
+Erros:
+
+| Código | Quando                        | Corpo                                             |
+| ------ | ----------------------------- | ------------------------------------------------- |
+| `400`  | `email` ou `senha` ausente    | `{ "erro": "Campos obrigatórios ausentes: senha." }` |
+| `401`  | e-mail inexistente ou senha errada | `{ "erro": "E-mail ou senha inválidos" }`    |
+
+A mensagem é a mesma nos dois casos, para não revelar quais e-mails existem.
+
+### GET `/api/doador/perfil`
+
+Exige o token devolvido no login.
+
+```http
+GET /api/doador/perfil
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+`200 OK`: devolve os mesmos campos de `doador` mostrados no login (sem `senhaHash`).
+
+Erros:
+
+| Código | Quando                                  | Corpo                                          |
+| ------ | --------------------------------------- | ---------------------------------------------- |
+| `401`  | cabeçalho `Authorization` ausente       | `{ "erro": "Token de autenticação ausente." }` |
+| `401`  | token inválido, expirado ou doador removido | `{ "erro": "Token inválido ou expirado." }` |
+
+### Como testar com curl
+
+```bash
+# 1. Cadastro
+curl -X POST http://localhost:3001/api/doador/cadastro \
+  -H "Content-Type: application/json" \
+  -d '{"nome":"Marina Alves","email":"marina.alves@email.com","tipoSanguineo":"O-","senha":"segredo123"}'
+
+# 2. Login (guarde o token da resposta)
+curl -X POST http://localhost:3001/api/doador/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"marina.alves@email.com","senha":"segredo123"}'
+
+# 3. Perfil
+curl http://localhost:3001/api/doador/perfil \
+  -H "Authorization: Bearer COLE_O_TOKEN_AQUI"
+```
+
+---
+
 ## Doadores
 
 - Coleção: `DoadoresCCadastro`
+- Cadastro e login pela plataforma do doador: veja [Autenticação do doador](#autenticação-do-doador-uc06).
 - **GET** `/api/doadores` — lista os registros.
 - **GET** `/api/doadores/:id` — busca um registro.
 - **POST** `/api/doadores` — cria um registro.

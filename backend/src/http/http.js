@@ -1,7 +1,7 @@
 const headers = {
   "content-type": "application/json; charset=utf-8",
   "access-control-allow-origin": "*",
-  "access-control-allow-headers": "Content-Type",
+  "access-control-allow-headers": "Content-Type, Authorization",
   "access-control-allow-methods": "GET,POST,PUT,PATCH,DELETE,OPTIONS",
 };
 
