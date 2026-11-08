@@ -2,11 +2,30 @@ import { useMemo, useState, type FormEvent } from "react";
 import { Eye, MoreHorizontal, Pencil, Plus, Search, SlidersHorizontal, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { areas } from "@/features/gestao/config/areas";
 import { obterStatusEstoque } from "@/features/gestao/domain/estoque";
 import type { AreaKey, Registro } from "@/features/gestao/domain/models";
@@ -31,8 +50,12 @@ export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
   const filtrados = useMemo(
     () =>
       registros.filter((registro) => {
-        const status = areaKey === "estoque" ? obterStatusEstoque(registro) : (registro["status"] ?? "");
-        const bateBusca = Object.values(registro).some((valor) => valor.toLowerCase().includes(busca.toLowerCase())) || status.toLowerCase().includes(busca.toLowerCase());
+        const status =
+          areaKey === "estoque" ? obterStatusEstoque(registro) : (registro["status"] ?? "");
+        const bateBusca =
+          Object.values(registro).some((valor) =>
+            valor.toLowerCase().includes(busca.toLowerCase()),
+          ) || status.toLowerCase().includes(busca.toLowerCase());
         return bateBusca && (filtro === "Todos" || status === filtro);
       }),
     [busca, filtro, registros],
@@ -78,37 +101,40 @@ export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
 
       <div className="overflow-hidden rounded-lg border bg-card shadow-panel">
         {areaKey !== "estoque" && (
-        <div className="flex flex-col gap-3 border-b p-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="relative w-full sm:max-w-sm">
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              value={busca}
-              onChange={(event) => setBusca(event.target.value)}
-              className="pl-9"
-              placeholder={`Buscar em ${area.nome.toLowerCase()}...`}
-            />
+          <div className="flex flex-col gap-3 border-b p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="relative w-full sm:max-w-sm">
+              <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={busca}
+                onChange={(event) => setBusca(event.target.value)}
+                className="pl-9"
+                placeholder={`Buscar em ${area.nome.toLowerCase()}...`}
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <SlidersHorizontal className="size-4 text-muted-foreground" />
+              <select
+                value={filtro}
+                onChange={(event) => setFiltro(event.target.value)}
+                className="h-9 rounded-md border border-input bg-background px-3 text-sm outline-none focus:ring-1 focus:ring-ring"
+              >
+                <option>Todos</option>
+                {statusOptions.map((status) => (
+                  <option key={status}>{status}</option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <SlidersHorizontal className="size-4 text-muted-foreground" />
-            <select
-              value={filtro}
-              onChange={(event) => setFiltro(event.target.value)}
-              className="h-9 rounded-md border border-input bg-background px-3 text-sm outline-none focus:ring-1 focus:ring-ring"
-            >
-              <option>Todos</option>
-              {statusOptions.map((status) => (
-                <option key={status}>{status}</option>
-              ))}
-            </select>
-          </div>
-        </div>
         )}
 
         <Table>
           <TableHeader className="bg-table-head">
             <TableRow>
               {area.campos.map((campo) => (
-                <TableHead key={campo.key} className="whitespace-nowrap px-5 text-xs font-semibold uppercase tracking-wide">
+                <TableHead
+                  key={campo.key}
+                  className="whitespace-nowrap px-5 text-xs font-semibold uppercase tracking-wide"
+                >
                   {campo.label}
                 </TableHead>
               ))}
@@ -120,38 +146,66 @@ export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
               <TableRow key={registro.id}>
                 {area.campos.map((campo, index) => (
                   <TableCell key={campo.key} className="max-w-64 px-5 py-3.5">
-                    <span className={index === 0 ? "font-medium text-foreground" : "text-muted-foreground"}>
-                      {campo.key === "status" ? <StatusBadge status={areaKey === "estoque" ? obterStatusEstoque(registro) : registro[campo.key] ?? ""} /> : campo.key === "porcentagem" ? `${registro[campo.key] ?? "0"}%` : registro[campo.key]}
+                    <span
+                      className={
+                        index === 0 ? "font-medium text-foreground" : "text-muted-foreground"
+                      }
+                    >
+                      {campo.key === "status" ? (
+                        <StatusBadge
+                          status={
+                            areaKey === "estoque"
+                              ? obterStatusEstoque(registro)
+                              : (registro[campo.key] ?? "")
+                          }
+                        />
+                      ) : campo.key === "porcentagem" ? (
+                        `${registro[campo.key] ?? "0"}%`
+                      ) : (
+                        registro[campo.key]
+                      )}
                     </span>
                   </TableCell>
                 ))}
                 <TableCell className="px-5 text-right">
                   {areaKey === "estoque" ? (
-                    <Button variant="ghost" size="icon" aria-label={`Editar ${registro["nome"]}`} onClick={() => setModal({ tipo: "editar", registro })}>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label={`Editar ${registro["nome"]}`}
+                      onClick={() => setModal({ tipo: "editar", registro })}
+                    >
                       <Pencil />
                     </Button>
                   ) : (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" aria-label={`Ações de ${registro["nome"]}`}>
-                        <MoreHorizontal />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => setModal({ tipo: "ver", registro })}>
-                        <Eye />
-                        Visualizar
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setModal({ tipo: "editar", registro })}>
-                        <Pencil />
-                        Editar
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive" onClick={() => setModal({ tipo: "excluir", registro })}>
-                        <Trash2 />
-                        Excluir
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          aria-label={`Ações de ${registro["nome"]}`}
+                        >
+                          <MoreHorizontal />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => setModal({ tipo: "ver", registro })}>
+                          <Eye />
+                          Visualizar
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setModal({ tipo: "editar", registro })}>
+                          <Pencil />
+                          Editar
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="text-destructive"
+                          onClick={() => setModal({ tipo: "excluir", registro })}
+                        >
+                          <Trash2 />
+                          Excluir
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   )}
                 </TableCell>
               </TableRow>
@@ -181,7 +235,9 @@ export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
             <>
               <DialogHeader>
                 <DialogTitle>Excluir {area.singular}?</DialogTitle>
-                <DialogDescription>Esta ação removerá "{modal.registro?.["nome"]}" dos registros.</DialogDescription>
+                <DialogDescription>
+                  Esta ação removerá "{modal.registro?.["nome"]}" dos registros.
+                </DialogDescription>
               </DialogHeader>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setModal(null)}>
@@ -202,62 +258,107 @@ export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
             <form onSubmit={submit}>
               <DialogHeader>
                 <DialogTitle>
-                  {modal?.tipo === "ver" ? "Detalhes" : modal?.tipo === "editar" ? "Editar" : "Adicionar"} {area.singular}
+                  {modal?.tipo === "ver"
+                    ? "Detalhes"
+                    : modal?.tipo === "editar"
+                      ? "Editar"
+                      : "Adicionar"}{" "}
+                  {area.singular}
                 </DialogTitle>
                 <DialogDescription>
-                  {modal?.tipo === "ver" ? "Confira as informações deste registro." : "Preencha os dados abaixo. Os campos são obrigatórios."}
+                  {modal?.tipo === "ver"
+                    ? "Confira as informações deste registro."
+                    : "Preencha os dados abaixo. Os campos são obrigatórios."}
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-6 sm:grid-cols-2">
-                {area.campos.filter((campo) => !(areaKey === "estoque" && campo.key === "status")).map((campo, index) => (
-                  <div key={campo.key} className={index === 0 ? "sm:col-span-2" : ""}>
-                    <Label htmlFor={campo.key}>{campo.label}</Label>
-                    {campo.options ? (
-                      <select
-                        id={campo.key}
-                        name={campo.key}
-                        defaultValue={modal?.registro?.[campo.key] ?? campo.options[0] ?? ""}
-                        disabled={modal?.tipo === "ver" || (areaKey === "estoque" && campo.key === "nome")}
-                        className="mt-1.5 h-9 w-full rounded-md border border-input bg-background px-3 text-sm disabled:opacity-60"
-                      >
-                        {campo.options.map((opcao) => (
-                          <option key={opcao}>{opcao}</option>
-                        ))}
-                      </select>
-                    ) : campo.key === "porcentagem" ? (
-                      <div className="relative mt-1.5">
+                {area.campos
+                  .filter((campo) => !(areaKey === "estoque" && campo.key === "status"))
+                  .map((campo, index) => (
+                    <div key={campo.key} className={index === 0 ? "sm:col-span-2" : ""}>
+                      <Label htmlFor={campo.key}>{campo.label}</Label>
+                      {campo.options ? (
+                        <select
+                          id={campo.key}
+                          name={campo.key}
+                          defaultValue={modal?.registro?.[campo.key] ?? campo.options[0] ?? ""}
+                          disabled={
+                            modal?.tipo === "ver" || (areaKey === "estoque" && campo.key === "nome")
+                          }
+                          className="mt-1.5 h-9 w-full rounded-md border border-input bg-background px-3 text-sm disabled:opacity-60"
+                        >
+                          {campo.options.map((opcao) => (
+                            <option key={opcao}>{opcao}</option>
+                          ))}
+                        </select>
+                      ) : campo.key === "porcentagem" ? (
+                        <div className="relative mt-1.5">
+                          <Input
+                            id={campo.key}
+                            name={campo.key}
+                            type="number"
+                            min="0"
+                            max="100"
+                            defaultValue={modal?.registro?.[campo.key] ?? "0"}
+                            disabled={modal?.tipo === "ver"}
+                            required
+                            className="pr-8"
+                          />
+                          <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-muted-foreground">
+                            %
+                          </span>
+                        </div>
+                      ) : (
                         <Input
                           id={campo.key}
                           name={campo.key}
-                          type="number"
-                          min="0"
-                          max="100"
-                          defaultValue={modal?.registro?.[campo.key] ?? "0"}
-                          disabled={modal?.tipo === "ver"}
+                          type={
+                            campo.key === "inicio" || campo.key === "horario"
+                              ? "text"
+                              : (campo.type ?? "text")
+                          }
+                          inputMode={
+                            campo.key === "inicio" ||
+                            campo.key === "horario" ||
+                            campo.key === "cpf" ||
+                            campo.key === "telefone"
+                              ? "numeric"
+                              : undefined
+                          }
+                          maxLength={
+                            campo.key === "inicio"
+                              ? 10
+                              : campo.key === "horario"
+                                ? 13
+                                : campo.key === "placa"
+                                  ? 8
+                                  : campo.key === "cpf"
+                                    ? 14
+                                    : campo.key === "telefone"
+                                      ? 15
+                                      : undefined
+                          }
+                          defaultValue={valorInicialCampo(
+                            campo.key,
+                            modal?.registro?.[campo.key] ?? "",
+                          )}
+                          onChange={(event) => {
+                            const valorFormatado = formatarCampo(
+                              campo.key,
+                              event.currentTarget.value,
+                            );
+                            if (valorFormatado !== event.currentTarget.value)
+                              event.currentTarget.value = valorFormatado;
+                          }}
+                          disabled={
+                            modal?.tipo === "ver" || (areaKey === "estoque" && campo.key === "nome")
+                          }
                           required
-                          className="pr-8"
+                          className="mt-1.5"
                         />
-                        <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-muted-foreground">%</span>
-                      </div>
-                    ) : (
-                      <Input
-                        id={campo.key}
-                        name={campo.key}
-                        type={campo.key === "inicio" || campo.key === "horario" ? "text" : campo.type ?? "text"}
-                        inputMode={campo.key === "inicio" || campo.key === "horario" || campo.key === "cpf" || campo.key === "telefone" ? "numeric" : undefined}
-                        maxLength={campo.key === "inicio" ? 10 : campo.key === "horario" ? 13 : campo.key === "placa" ? 8 : campo.key === "cpf" ? 14 : campo.key === "telefone" ? 15 : undefined}
-                        defaultValue={valorInicialCampo(campo.key, modal?.registro?.[campo.key] ?? "")}
-                        onChange={(event) => {
-                          const valorFormatado = formatarCampo(campo.key, event.currentTarget.value);
-                          if (valorFormatado !== event.currentTarget.value) event.currentTarget.value = valorFormatado;
-                        }}
-                        disabled={modal?.tipo === "ver" || (areaKey === "estoque" && campo.key === "nome")}
-                        required
-                        className="mt-1.5"
-                      />
-                    )}
-                  </div>
-                ))}
+                      )}
+                    </div>
+                  ))}
               </div>
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={() => setModal(null)}>
