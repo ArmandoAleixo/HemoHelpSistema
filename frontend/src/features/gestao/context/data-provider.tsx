@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { LoadingScreen } from "@/components/gestao/loading-screen";
+import { LoadingScreen } from "@/features/gestao/components/loading-screen";
 import { TIPOS_SANGUINEOS } from "../domain/estoque";
 import type { AreaKey, Registro } from "../domain/models";
 import * as api from "../services/gestao-api";

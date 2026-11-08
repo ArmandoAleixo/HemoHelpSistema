@@ -11,7 +11,7 @@ import {
 import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { AppShell } from "@/components/gestao/app-shell";
+import { AppShell } from "@/features/gestao/components/app-shell";
 import { Toaster } from "@/components/ui/sonner";
 import { DataProvider } from "@/features/gestao/context/data-provider";
 

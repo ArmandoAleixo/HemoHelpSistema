@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CrudPage } from "@/components/gestao/crud-page";
+import { CrudPage } from "@/features/gestao/components/crud-page";
 
 export const Route = createFileRoute("/estoque")({
   head: () => ({

@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Header } from "@/components/landing/Header";
-import { Hero } from "@/components/landing/Hero";
-import { EstoqueSection } from "@/components/landing/EstoqueSection";
-import { CampanhasSection } from "@/components/landing/CampanhasSection";
-import { LocaisSection } from "@/components/landing/LocaisSection";
-import { CriteriosSection } from "@/components/landing/CriteriosSection";
-import { SobreSection } from "@/components/landing/SobreSection";
-import { Footer } from "@/components/landing/Footer";
+import { Header } from "@/features/site/components/Header";
+import { Hero } from "@/features/site/components/Hero";
+import { EstoqueSection } from "@/features/site/components/EstoqueSection";
+import { CampanhasSection } from "@/features/site/components/CampanhasSection";
+import { LocaisSection } from "@/features/site/components/LocaisSection";
+import { CriteriosSection } from "@/features/site/components/CriteriosSection";
+import { SobreSection } from "@/features/site/components/SobreSection";
+import { Footer } from "@/features/site/components/Footer";
 
 export const Route = createFileRoute("/sobre")({
   head: () => ({ meta: [{ title: "Sobre - HemoHelp" }] }),
