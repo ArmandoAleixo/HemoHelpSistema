@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CrudPage } from "@/features/gestao/components/crud-page";
-export const Route = createFileRoute("/campanhas")({
+export const Route = createFileRoute("/gestao/campanhas")({
   head: () => ({
     meta: [
       { title: "Campanhas - HemoHelp Sistema" },

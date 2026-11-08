@@ -1,22 +1,36 @@
 import { Clock3, MapPin, Navigation } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-// Dados de exemplo. Depois podem vir da API de locais de coleta.
-const LOCAIS = [
+// Dados de exemplo para apresentação ao hemocentro; serão substituídos pela API.
+type LocalLanding = {
+  nome: string;
+  endereco: string;
+  horario: string;
+  tipo: string;
+  exemplo?: boolean;
+};
+
+const LOCAIS: LocalLanding[] = [
   {
-    nome: "Hemocentro Central",
-    endereco: "Av. das Nações, 1200 · Centro",
-    horario: "Seg a sex, das 7h às 17h",
+    nome: "Hemocentro de Campina Grande",
+    endereco: "R. Profa. Eutécia Vital Ribeiro, s/n · Campina Grande - PB",
+    horario: "Seg a sex, a partir das 7h",
+    tipo: "Hemocentro",
   },
   {
-    nome: "Unidade Zona Sul",
-    endereco: "Rua das Flores, 84 · Jardim América",
-    horario: "Seg a sáb, das 8h às 16h",
+    nome: "Hospital HELP",
+    endereco: "R. Heronides da Costa Cirne, 250 · Serrotão · Campina Grande - PB",
+    horario: "Horário a confirmar",
+    tipo: "Ponto de campanha",
+    exemplo: true,
   },
   {
-    nome: "Hospital da Cidade",
-    endereco: "Rua Boa Esperança, 450 · Vila Nova",
-    horario: "Ter a sex, das 8h às 15h",
+    nome: "Policlínica das Malvinas",
+    endereco: "Av. Plínio Lemos · Malvinas · Campina Grande - PB",
+    horario: "Horário a confirmar",
+    tipo: "Unidade móvel",
+    exemplo: true,
   },
 ];
 
@@ -57,7 +71,20 @@ export function LocaisSection() {
                     <MapPin className="size-5" />
                   </span>
                   <div>
-                    <h3 className="font-bold">{local.nome}</h3>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="font-bold">{local.nome}</h3>
+                      {local.exemplo && (
+                        <Badge
+                          variant="outline"
+                          className="border-warning/40 bg-warning-soft text-warning"
+                        >
+                          A confirmar
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-wide text-primary">
+                      {local.tipo}
+                    </p>
                     <p className="mt-1 text-sm text-muted-foreground">{local.endereco}</p>
                     <p className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-success">
                       <Clock3 className="size-3.5" /> {local.horario}
