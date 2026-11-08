@@ -43,10 +43,7 @@ export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
   const [modal, setModal] = useState<Modal>(null);
   const [salvando, setSalvando] = useState(false);
 
-  if (!area) return null;
-
   const registros = dados[areaKey];
-  const statusOptions = area.campos.find((campo) => campo.key === "status")?.options ?? [];
   const filtrados = useMemo(
     () =>
       registros.filter((registro) => {
@@ -58,8 +55,12 @@ export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
           ) || status.toLowerCase().includes(busca.toLowerCase());
         return bateBusca && (filtro === "Todos" || status === filtro);
       }),
-    [busca, filtro, registros],
+    [areaKey, busca, filtro, registros],
   );
+
+  if (!area) return null;
+
+  const statusOptions = area.campos.find((campo) => campo.key === "status")?.options ?? [];
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
