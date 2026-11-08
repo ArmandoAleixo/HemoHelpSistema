@@ -44,6 +44,11 @@ const indicesUnicos = Object.freeze([
     campo: "email",
     opcoes: { unique: true, partialFilterExpression: { email: { $type: "string" } } },
   },
+  {
+    colecao: "DoadoresCCadastro",
+    campo: "cpf",
+    opcoes: { unique: true, partialFilterExpression: { cpf: { $type: "string" } } },
+  },
 ]);
 
 async function garantirIndicesUnicos(database) {

@@ -1,11 +1,18 @@
 import { lerBody, responder } from "../http/http.js";
 import { autenticarDoador } from "../middlewares/autenticarDoador.js";
-import { buscarDoadorPorId, cadastrar, login } from "../services/doadorAuthService.js";
+import {
+  alterarSenha,
+  atualizarPerfil,
+  buscarDoadorPorId,
+  cadastrar,
+  login,
+} from "../services/doadorAuthService.js";
 
 const CAMINHOS = Object.freeze({
   cadastro: "/api/doador/cadastro",
   login: "/api/doador/login",
   perfil: "/api/doador/perfil",
+  senha: "/api/doador/senha",
 });
 
 export async function rotearDoador(request, response, url) {
@@ -28,6 +35,22 @@ export async function rotearDoador(request, response, url) {
 
     const doador = await buscarDoadorPorId(request.doadorId);
     responder(response, doador ? 200 : 401, doador ?? { erro: "Token inválido ou expirado." });
+    return;
+  }
+
+  if (request.method === "PATCH" && caminho === CAMINHOS.perfil) {
+    if (!autenticarDoador(request, response)) return;
+
+    const resultado = await atualizarPerfil(request.doadorId, await lerBody(request));
+    responder(response, resultado.status, resultado.body);
+    return;
+  }
+
+  if (request.method === "PATCH" && caminho === CAMINHOS.senha) {
+    if (!autenticarDoador(request, response)) return;
+
+    const resultado = await alterarSenha(request.doadorId, await lerBody(request));
+    responder(response, resultado.status, resultado.body);
     return;
   }
 
