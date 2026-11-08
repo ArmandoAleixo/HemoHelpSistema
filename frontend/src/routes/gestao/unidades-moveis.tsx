@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CrudPage } from "@/features/gestao/components/crud-page";
-export const Route = createFileRoute("/unidades-moveis")({
+export const Route = createFileRoute("/gestao/unidades-moveis")({
   head: () => ({
     meta: [
       { title: "Unidades móveis - HemoHelp Sistema" },

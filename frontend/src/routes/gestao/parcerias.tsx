@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CrudPage } from "@/features/gestao/components/crud-page";
-export const Route = createFileRoute("/parcerias")({
+export const Route = createFileRoute("/gestao/parcerias")({
   head: () => ({
     meta: [
       { title: "Parcerias - HemoHelp Sistema" },
