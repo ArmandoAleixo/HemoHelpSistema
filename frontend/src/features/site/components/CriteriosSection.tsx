@@ -1,18 +1,6 @@
 import { Check, Clock3, Info } from "lucide-react";
-
-const PODE_DOAR = [
-  "Ter entre 16 e 69 anos (menores com autorização)",
-  "Pesar mais de 50 kg",
-  "Estar descansado e bem alimentado",
-  "Apresentar documento oficial com foto",
-];
-
-const IMPEDIMENTOS = [
-  "Gripe ou febre nos últimos 15 dias",
-  "Tatuagem ou piercing nos últimos 6 meses",
-  "Gravidez ou amamentação",
-  "Uso recente de alguns medicamentos",
-];
+import { CRITERIOS_PRINCIPAIS, IMPEDIMENTOS_PRINCIPAIS } from "../data/criterios";
+import { CriteriosModal } from "./CriteriosModal";
 
 export function CriteriosSection() {
   return (
@@ -38,7 +26,7 @@ export function CriteriosSection() {
             </div>
             <h3 className="text-xl font-bold">Quem pode doar</h3>
             <ul className="mt-5 flex flex-col gap-4">
-              {PODE_DOAR.map((item) => (
+              {CRITERIOS_PRINCIPAIS.map((item) => (
                 <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
                   <Check className="mt-0.5 size-4 shrink-0 text-success" />
                   {item}
@@ -54,7 +42,7 @@ export function CriteriosSection() {
             </div>
             <h3 className="text-xl font-bold">Impedimentos temporários</h3>
             <ul className="mt-5 flex flex-col gap-4">
-              {IMPEDIMENTOS.map((item) => (
+              {IMPEDIMENTOS_PRINCIPAIS.map((item) => (
                 <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
                   <Info className="mt-0.5 size-4 shrink-0 text-warning" />
                   {item}
@@ -62,6 +50,12 @@ export function CriteriosSection() {
               ))}
             </ul>
           </div>
+        </div>
+        <div className="mt-8 flex flex-col items-center gap-2 text-center">
+          <CriteriosModal />
+          <p className="text-xs text-muted-foreground">
+            Informações de exemplo. Confirme sempre com o hemocentro.
+          </p>
         </div>
       </div>
     </section>
