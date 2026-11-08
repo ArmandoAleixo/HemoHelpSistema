@@ -37,6 +37,28 @@ async function garantirIndicesRelacionamentos(database) {
   );
 }
 
+// Indices unicos. O filtro parcial ignora documentos antigos que ainda nao tem o campo.
+const indicesUnicos = Object.freeze([
+  {
+    colecao: "DoadoresCCadastro",
+    campo: "email",
+    opcoes: { unique: true, partialFilterExpression: { email: { $type: "string" } } },
+  },
+  {
+    colecao: "DoadoresCCadastro",
+    campo: "cpf",
+    opcoes: { unique: true, partialFilterExpression: { cpf: { $type: "string" } } },
+  },
+]);
+
+async function garantirIndicesUnicos(database) {
+  await Promise.all(
+    indicesUnicos.map(({ colecao, campo, opcoes }) =>
+      database.collection(colecao).createIndex({ [campo]: 1 }, opcoes),
+    ),
+  );
+}
+
 export async function conectarBanco() {
   if (!databasePromise) {
     databasePromise = client
@@ -45,6 +67,7 @@ export async function conectarBanco() {
       .then(async (database) => {
         await garantirColecoes(database);
         await garantirIndicesRelacionamentos(database);
+        await garantirIndicesUnicos(database);
         return database;
       });
   }

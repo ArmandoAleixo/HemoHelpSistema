@@ -3,7 +3,7 @@ import { HeartHandshake, Stethoscope } from "lucide-react";
 import { CrudPage } from "@/features/gestao/components/crud-page";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export const Route = createFileRoute("/cadastros")({
+export const Route = createFileRoute("/gestao/cadastros")({
   head: () => ({
     meta: [
       { title: "Cadastros - HemoHelp Sistema" },

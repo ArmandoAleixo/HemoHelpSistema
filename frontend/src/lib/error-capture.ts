@@ -1,5 +1,5 @@
-// Captures the original Error out-of-band so server.ts can recover the stack
-// when h3 has already swallowed the throw into a generic 500 Response.
+// Guarda o Error original à parte para o server.ts recuperar o stack
+// quando o h3 já transformou o erro em uma resposta 500 genérica.
 
 let lastCapturedError: { error: unknown; at: number } | undefined;
 const TTL_MS = 5_000;
@@ -8,10 +8,9 @@ function record(error: unknown) {
   lastCapturedError = { error, at: Date.now() };
 }
 
-// h3's HTTPError serializes to {"status":500,"unhandled":true,"message":"HTTPError"} —
-// no stack, no cause — so a plain console.error(error) reaches the log pipeline with
-// the failure detail stripped. Expand Error-like args into a string that keeps the
-// message, stack, and the full cause chain.
+// O HTTPError do h3 vira {"status":500,"unhandled":true,"message":"HTTPError"},
+// sem stack e sem cause. Assim, um console.error(error) comum chega ao log sem os detalhes.
+// Expandimos os argumentos parecidos com Error em uma string com mensagem, stack e toda a cadeia de cause.
 const CAUSE_DEPTH_LIMIT = 5;
 const DESCRIPTION_LENGTH_LIMIT = 8_000;
 
@@ -49,9 +48,9 @@ function isErrorLike(value: unknown): value is Error {
   return value instanceof Error;
 }
 
-// Wrap console.error so errors logged by any layer — including h3's internal
-// unhandled-error logging, which this file cannot hook directly — are both
-// recorded for consumeLastCapturedError and expanded before serialization.
+// Envolve o console.error para que erros registrados por qualquer camada, inclusive
+// o log interno de erros não tratados do h3, que este arquivo não consegue interceptar,
+// sejam guardados para consumeLastCapturedError e detalhados antes de virar string.
 const originalConsoleError = console.error.bind(console);
 console.error = (...args: unknown[]) => {
   const expanded = args.map((arg) => {

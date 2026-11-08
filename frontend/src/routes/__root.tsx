@@ -4,19 +4,13 @@ import {
   Link as RouterLink,
   createRootRouteWithContext,
   useRouter,
-  useRouterState,
   HeadContent,
   Scripts as AppScripts,
 } from "@tanstack/react-router";
 import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { AppShell } from "@/features/gestao/components/app-shell";
 import { Toaster } from "@/components/ui/sonner";
-import { DataProvider } from "@/features/gestao/context/data-provider";
-
-// Páginas da Landing Page: abrem sem o menu do painel
-const LANDING_ROUTES = ["/sobre"];
 
 function NotFoundComponent() {
   return (
@@ -123,21 +117,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isLanding = LANDING_ROUTES.includes(pathname);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <DataProvider>
-        {isLanding ? (
-          <Outlet />
-        ) : (
-          <AppShell>
-            <Outlet />
-          </AppShell>
-        )}
-        <Toaster />
-      </DataProvider>
+      <Outlet />
+      <Toaster />
     </QueryClientProvider>
   );
 }

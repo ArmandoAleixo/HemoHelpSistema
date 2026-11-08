@@ -1,10 +1,11 @@
-import { Link, linkOptions } from "@tanstack/react-router";
+import { Link, linkOptions, useNavigate } from "@tanstack/react-router";
 import {
   Box,
   CalendarDays,
   Droplets,
   Handshake,
   LayoutDashboard,
+  LogOut,
   MapPin,
   Menu,
   Truck,
@@ -13,20 +14,29 @@ import {
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/features/auth/use-auth";
 import { cn } from "@/lib/utils";
 
 const itens = linkOptions([
-  { to: "/", label: "Visão geral", icon: LayoutDashboard },
-  { to: "/estoque", label: "Estoque", icon: Box },
-  { to: "/unidades-moveis", label: "Unidades móveis", icon: Truck },
-  { to: "/locais-de-coleta", label: "Locais de coleta", icon: MapPin },
-  { to: "/parcerias", label: "Parcerias", icon: Handshake },
-  { to: "/campanhas", label: "Campanhas", icon: CalendarDays },
-  { to: "/cadastros", label: "Cadastros", icon: UserRoundPlus },
+  { to: "/gestao", label: "Visão geral", icon: LayoutDashboard },
+  { to: "/gestao/estoque", label: "Estoque", icon: Box },
+  { to: "/gestao/unidades-moveis", label: "Unidades móveis", icon: Truck },
+  { to: "/gestao/locais-de-coleta", label: "Locais de coleta", icon: MapPin },
+  { to: "/gestao/parcerias", label: "Parcerias", icon: Handshake },
+  { to: "/gestao/campanhas", label: "Campanhas", icon: CalendarDays },
+  { to: "/gestao/cadastros", label: "Cadastros", icon: UserRoundPlus },
 ] as const);
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [aberto, setAberto] = useState(false);
+  const navigate = useNavigate();
+  const { sessao, sair } = useAuth();
+
+  function aoSair() {
+    sair();
+    void navigate({ to: "/gestao/login", replace: true });
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {aberto && (
@@ -39,7 +49,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         )}
       >
         <div className="flex h-18 items-center justify-between border-b border-sidebar-border px-5">
-          <Link to="/" className="flex items-center gap-3" onClick={() => setAberto(false)}>
+          <Link to="/gestao" className="flex items-center gap-3" onClick={() => setAberto(false)}>
             <span className="flex size-10 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground shadow-brand">
               <Droplets className="size-5" />
             </span>
@@ -60,6 +70,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <X />
           </Button>
         </div>
+
         <nav className="flex-1 space-y-1 px-3 py-5" aria-label="Navegação principal">
           <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-widest text-sidebar-muted">
             Menu principal
@@ -68,7 +79,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Link
               key={to}
               to={to}
-              activeOptions={{ exact: to === "/" }}
+              activeOptions={{ exact: to === "/gestao" }}
               onClick={() => setAberto(false)}
               className="flex h-11 items-center gap-3 rounded-md px-3 text-sm font-medium text-sidebar-muted transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[status=active]:bg-sidebar-accent data-[status=active]:text-sidebar-primary data-[status=active]:shadow-nav"
             >
@@ -77,7 +88,22 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Link>
           ))}
         </nav>
+
+        <div className="border-t border-sidebar-border px-3 py-4">
+          {sessao?.email && (
+            <p className="mb-2 truncate px-3 text-xs text-sidebar-muted">{sessao.email}</p>
+          )}
+          <Button
+            variant="ghost"
+            onClick={aoSair}
+            className="h-11 w-full justify-start gap-3 rounded-md px-3 text-sm font-medium text-sidebar-muted hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+          >
+            <LogOut className="size-[18px]" />
+            Sair
+          </Button>
+        </div>
       </aside>
+
       <div className="lg:pl-64">
         <Button
           variant="default"

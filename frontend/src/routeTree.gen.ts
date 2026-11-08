@@ -10,128 +10,206 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as CadastrosRouteImport } from './routes/cadastros'
-import { Route as CampanhasRouteImport } from './routes/campanhas'
-import { Route as EstoqueRouteImport } from './routes/estoque'
-import { Route as LocaisDeColetaRouteImport } from './routes/locais-de-coleta'
-import { Route as ParceriasRouteImport } from './routes/parcerias'
-import { Route as SobreRouteImport } from './routes/sobre'
-import { Route as UnidadesMoveisRouteImport } from './routes/unidades-moveis'
+import { Route as DoadorRouteRouteImport } from './routes/doador/route'
+import { Route as GestaoRouteRouteImport } from './routes/gestao/route'
+import { Route as DoadorIndexRouteImport } from './routes/doador/index'
+import { Route as DoadorPerfilRouteImport } from './routes/doador/perfil'
+import { Route as DoadorCadastroRouteImport } from './routes/doador_.cadastro'
+import { Route as DoadorLoginRouteImport } from './routes/doador_.login'
+import { Route as GestaoIndexRouteImport } from './routes/gestao/index'
+import { Route as GestaoCadastrosRouteImport } from './routes/gestao/cadastros'
+import { Route as GestaoCampanhasRouteImport } from './routes/gestao/campanhas'
+import { Route as GestaoEstoqueRouteImport } from './routes/gestao/estoque'
+import { Route as GestaoLocaisDeColetaRouteImport } from './routes/gestao/locais-de-coleta'
+import { Route as GestaoParceriasRouteImport } from './routes/gestao/parcerias'
+import { Route as GestaoUnidadesMoveisRouteImport } from './routes/gestao/unidades-moveis'
+import { Route as GestaoLoginRouteImport } from './routes/gestao_.login'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CadastrosRoute = CadastrosRouteImport.update({
+const DoadorRouteRoute = DoadorRouteRouteImport.update({
+  id: '/doador',
+  path: '/doador',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GestaoRouteRoute = GestaoRouteRouteImport.update({
+  id: '/gestao',
+  path: '/gestao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoadorIndexRoute = DoadorIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DoadorRouteRoute,
+} as any)
+const DoadorPerfilRoute = DoadorPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => DoadorRouteRoute,
+} as any)
+const DoadorCadastroRoute = DoadorCadastroRouteImport.update({
+  id: '/doador_/cadastro',
+  path: '/doador/cadastro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoadorLoginRoute = DoadorLoginRouteImport.update({
+  id: '/doador_/login',
+  path: '/doador/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GestaoIndexRoute = GestaoIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => GestaoRouteRoute,
+} as any)
+const GestaoCadastrosRoute = GestaoCadastrosRouteImport.update({
   id: '/cadastros',
   path: '/cadastros',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => GestaoRouteRoute,
 } as any)
-const CampanhasRoute = CampanhasRouteImport.update({
+const GestaoCampanhasRoute = GestaoCampanhasRouteImport.update({
   id: '/campanhas',
   path: '/campanhas',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => GestaoRouteRoute,
 } as any)
-const EstoqueRoute = EstoqueRouteImport.update({
+const GestaoEstoqueRoute = GestaoEstoqueRouteImport.update({
   id: '/estoque',
   path: '/estoque',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => GestaoRouteRoute,
 } as any)
-const LocaisDeColetaRoute = LocaisDeColetaRouteImport.update({
+const GestaoLocaisDeColetaRoute = GestaoLocaisDeColetaRouteImport.update({
   id: '/locais-de-coleta',
   path: '/locais-de-coleta',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => GestaoRouteRoute,
 } as any)
-const ParceriasRoute = ParceriasRouteImport.update({
+const GestaoParceriasRoute = GestaoParceriasRouteImport.update({
   id: '/parcerias',
   path: '/parcerias',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => GestaoRouteRoute,
 } as any)
-const SobreRoute = SobreRouteImport.update({
-  id: '/sobre',
-  path: '/sobre',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const UnidadesMoveisRoute = UnidadesMoveisRouteImport.update({
+const GestaoUnidadesMoveisRoute = GestaoUnidadesMoveisRouteImport.update({
   id: '/unidades-moveis',
   path: '/unidades-moveis',
+  getParentRoute: () => GestaoRouteRoute,
+} as any)
+const GestaoLoginRoute = GestaoLoginRouteImport.update({
+  id: '/gestao_/login',
+  path: '/gestao/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/cadastros': typeof CadastrosRoute
-  '/campanhas': typeof CampanhasRoute
-  '/estoque': typeof EstoqueRoute
-  '/locais-de-coleta': typeof LocaisDeColetaRoute
-  '/parcerias': typeof ParceriasRoute
-  '/sobre': typeof SobreRoute
-  '/unidades-moveis': typeof UnidadesMoveisRoute
+  '/doador': typeof DoadorRouteRouteWithChildren
+  '/gestao': typeof GestaoRouteRouteWithChildren
+  '/doador/perfil': typeof DoadorPerfilRoute
+  '/doador/cadastro': typeof DoadorCadastroRoute
+  '/doador/login': typeof DoadorLoginRoute
+  '/gestao/cadastros': typeof GestaoCadastrosRoute
+  '/gestao/campanhas': typeof GestaoCampanhasRoute
+  '/gestao/estoque': typeof GestaoEstoqueRoute
+  '/gestao/locais-de-coleta': typeof GestaoLocaisDeColetaRoute
+  '/gestao/parcerias': typeof GestaoParceriasRoute
+  '/gestao/unidades-moveis': typeof GestaoUnidadesMoveisRoute
+  '/gestao/login': typeof GestaoLoginRoute
+  '/doador/': typeof DoadorIndexRoute
+  '/gestao/': typeof GestaoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/cadastros': typeof CadastrosRoute
-  '/campanhas': typeof CampanhasRoute
-  '/estoque': typeof EstoqueRoute
-  '/locais-de-coleta': typeof LocaisDeColetaRoute
-  '/parcerias': typeof ParceriasRoute
-  '/sobre': typeof SobreRoute
-  '/unidades-moveis': typeof UnidadesMoveisRoute
+  '/doador/perfil': typeof DoadorPerfilRoute
+  '/doador/cadastro': typeof DoadorCadastroRoute
+  '/doador/login': typeof DoadorLoginRoute
+  '/gestao/cadastros': typeof GestaoCadastrosRoute
+  '/gestao/campanhas': typeof GestaoCampanhasRoute
+  '/gestao/estoque': typeof GestaoEstoqueRoute
+  '/gestao/locais-de-coleta': typeof GestaoLocaisDeColetaRoute
+  '/gestao/parcerias': typeof GestaoParceriasRoute
+  '/gestao/unidades-moveis': typeof GestaoUnidadesMoveisRoute
+  '/gestao/login': typeof GestaoLoginRoute
+  '/doador': typeof DoadorIndexRoute
+  '/gestao': typeof GestaoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/cadastros': typeof CadastrosRoute
-  '/campanhas': typeof CampanhasRoute
-  '/estoque': typeof EstoqueRoute
-  '/locais-de-coleta': typeof LocaisDeColetaRoute
-  '/parcerias': typeof ParceriasRoute
-  '/sobre': typeof SobreRoute
-  '/unidades-moveis': typeof UnidadesMoveisRoute
+  '/doador': typeof DoadorRouteRouteWithChildren
+  '/gestao': typeof GestaoRouteRouteWithChildren
+  '/doador/perfil': typeof DoadorPerfilRoute
+  '/doador_/cadastro': typeof DoadorCadastroRoute
+  '/doador_/login': typeof DoadorLoginRoute
+  '/gestao/cadastros': typeof GestaoCadastrosRoute
+  '/gestao/campanhas': typeof GestaoCampanhasRoute
+  '/gestao/estoque': typeof GestaoEstoqueRoute
+  '/gestao/locais-de-coleta': typeof GestaoLocaisDeColetaRoute
+  '/gestao/parcerias': typeof GestaoParceriasRoute
+  '/gestao/unidades-moveis': typeof GestaoUnidadesMoveisRoute
+  '/gestao_/login': typeof GestaoLoginRoute
+  '/doador/': typeof DoadorIndexRoute
+  '/gestao/': typeof GestaoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/cadastros'
-    | '/campanhas'
-    | '/estoque'
-    | '/locais-de-coleta'
-    | '/parcerias'
-    | '/sobre'
-    | '/unidades-moveis'
+    | '/doador'
+    | '/gestao'
+    | '/doador/perfil'
+    | '/doador/cadastro'
+    | '/doador/login'
+    | '/gestao/cadastros'
+    | '/gestao/campanhas'
+    | '/gestao/estoque'
+    | '/gestao/locais-de-coleta'
+    | '/gestao/parcerias'
+    | '/gestao/unidades-moveis'
+    | '/gestao/login'
+    | '/doador/'
+    | '/gestao/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/cadastros'
-    | '/campanhas'
-    | '/estoque'
-    | '/locais-de-coleta'
-    | '/parcerias'
-    | '/sobre'
-    | '/unidades-moveis'
+    | '/doador/perfil'
+    | '/doador/cadastro'
+    | '/doador/login'
+    | '/gestao/cadastros'
+    | '/gestao/campanhas'
+    | '/gestao/estoque'
+    | '/gestao/locais-de-coleta'
+    | '/gestao/parcerias'
+    | '/gestao/unidades-moveis'
+    | '/gestao/login'
+    | '/doador'
+    | '/gestao'
   id:
     | '__root__'
     | '/'
-    | '/cadastros'
-    | '/campanhas'
-    | '/estoque'
-    | '/locais-de-coleta'
-    | '/parcerias'
-    | '/sobre'
-    | '/unidades-moveis'
+    | '/doador'
+    | '/gestao'
+    | '/doador/perfil'
+    | '/doador_/cadastro'
+    | '/doador_/login'
+    | '/gestao/cadastros'
+    | '/gestao/campanhas'
+    | '/gestao/estoque'
+    | '/gestao/locais-de-coleta'
+    | '/gestao/parcerias'
+    | '/gestao/unidades-moveis'
+    | '/gestao_/login'
+    | '/doador/'
+    | '/gestao/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CadastrosRoute: typeof CadastrosRoute
-  CampanhasRoute: typeof CampanhasRoute
-  EstoqueRoute: typeof EstoqueRoute
-  LocaisDeColetaRoute: typeof LocaisDeColetaRoute
-  ParceriasRoute: typeof ParceriasRoute
-  SobreRoute: typeof SobreRoute
-  UnidadesMoveisRoute: typeof UnidadesMoveisRoute
+  DoadorRouteRoute: typeof DoadorRouteRouteWithChildren
+  GestaoRouteRoute: typeof GestaoRouteRouteWithChildren
+  DoadorCadastroRoute: typeof DoadorCadastroRoute
+  DoadorLoginRoute: typeof DoadorLoginRoute
+  GestaoLoginRoute: typeof GestaoLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -143,67 +221,152 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/cadastros': {
-      id: '/cadastros'
+    '/doador': {
+      id: '/doador'
+      path: '/doador'
+      fullPath: '/doador'
+      preLoaderRoute: typeof DoadorRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gestao': {
+      id: '/gestao'
+      path: '/gestao'
+      fullPath: '/gestao'
+      preLoaderRoute: typeof GestaoRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doador/': {
+      id: '/doador/'
+      path: '/'
+      fullPath: '/doador/'
+      preLoaderRoute: typeof DoadorIndexRouteImport
+      parentRoute: typeof DoadorRouteRoute
+    }
+    '/doador/perfil': {
+      id: '/doador/perfil'
+      path: '/perfil'
+      fullPath: '/doador/perfil'
+      preLoaderRoute: typeof DoadorPerfilRouteImport
+      parentRoute: typeof DoadorRouteRoute
+    }
+    '/doador_/cadastro': {
+      id: '/doador_/cadastro'
+      path: '/doador/cadastro'
+      fullPath: '/doador/cadastro'
+      preLoaderRoute: typeof DoadorCadastroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doador_/login': {
+      id: '/doador_/login'
+      path: '/doador/login'
+      fullPath: '/doador/login'
+      preLoaderRoute: typeof DoadorLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gestao/': {
+      id: '/gestao/'
+      path: '/'
+      fullPath: '/gestao/'
+      preLoaderRoute: typeof GestaoIndexRouteImport
+      parentRoute: typeof GestaoRouteRoute
+    }
+    '/gestao/cadastros': {
+      id: '/gestao/cadastros'
       path: '/cadastros'
-      fullPath: '/cadastros'
-      preLoaderRoute: typeof CadastrosRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/gestao/cadastros'
+      preLoaderRoute: typeof GestaoCadastrosRouteImport
+      parentRoute: typeof GestaoRouteRoute
     }
-    '/campanhas': {
-      id: '/campanhas'
+    '/gestao/campanhas': {
+      id: '/gestao/campanhas'
       path: '/campanhas'
-      fullPath: '/campanhas'
-      preLoaderRoute: typeof CampanhasRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/gestao/campanhas'
+      preLoaderRoute: typeof GestaoCampanhasRouteImport
+      parentRoute: typeof GestaoRouteRoute
     }
-    '/estoque': {
-      id: '/estoque'
+    '/gestao/estoque': {
+      id: '/gestao/estoque'
       path: '/estoque'
-      fullPath: '/estoque'
-      preLoaderRoute: typeof EstoqueRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/gestao/estoque'
+      preLoaderRoute: typeof GestaoEstoqueRouteImport
+      parentRoute: typeof GestaoRouteRoute
     }
-    '/locais-de-coleta': {
-      id: '/locais-de-coleta'
+    '/gestao/locais-de-coleta': {
+      id: '/gestao/locais-de-coleta'
       path: '/locais-de-coleta'
-      fullPath: '/locais-de-coleta'
-      preLoaderRoute: typeof LocaisDeColetaRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/gestao/locais-de-coleta'
+      preLoaderRoute: typeof GestaoLocaisDeColetaRouteImport
+      parentRoute: typeof GestaoRouteRoute
     }
-    '/parcerias': {
-      id: '/parcerias'
+    '/gestao/parcerias': {
+      id: '/gestao/parcerias'
       path: '/parcerias'
-      fullPath: '/parcerias'
-      preLoaderRoute: typeof ParceriasRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/gestao/parcerias'
+      preLoaderRoute: typeof GestaoParceriasRouteImport
+      parentRoute: typeof GestaoRouteRoute
     }
-    '/sobre': {
-      id: '/sobre'
-      path: '/sobre'
-      fullPath: '/sobre'
-      preLoaderRoute: typeof SobreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/unidades-moveis': {
-      id: '/unidades-moveis'
+    '/gestao/unidades-moveis': {
+      id: '/gestao/unidades-moveis'
       path: '/unidades-moveis'
-      fullPath: '/unidades-moveis'
-      preLoaderRoute: typeof UnidadesMoveisRouteImport
+      fullPath: '/gestao/unidades-moveis'
+      preLoaderRoute: typeof GestaoUnidadesMoveisRouteImport
+      parentRoute: typeof GestaoRouteRoute
+    }
+    '/gestao_/login': {
+      id: '/gestao_/login'
+      path: '/gestao/login'
+      fullPath: '/gestao/login'
+      preLoaderRoute: typeof GestaoLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
+interface DoadorRouteRouteChildren {
+  DoadorPerfilRoute: typeof DoadorPerfilRoute
+  DoadorIndexRoute: typeof DoadorIndexRoute
+}
+
+const DoadorRouteRouteChildren: DoadorRouteRouteChildren = {
+  DoadorPerfilRoute: DoadorPerfilRoute,
+  DoadorIndexRoute: DoadorIndexRoute,
+}
+
+const DoadorRouteRouteWithChildren = DoadorRouteRoute._addFileChildren(
+  DoadorRouteRouteChildren,
+)
+
+interface GestaoRouteRouteChildren {
+  GestaoCadastrosRoute: typeof GestaoCadastrosRoute
+  GestaoCampanhasRoute: typeof GestaoCampanhasRoute
+  GestaoEstoqueRoute: typeof GestaoEstoqueRoute
+  GestaoLocaisDeColetaRoute: typeof GestaoLocaisDeColetaRoute
+  GestaoParceriasRoute: typeof GestaoParceriasRoute
+  GestaoUnidadesMoveisRoute: typeof GestaoUnidadesMoveisRoute
+  GestaoIndexRoute: typeof GestaoIndexRoute
+}
+
+const GestaoRouteRouteChildren: GestaoRouteRouteChildren = {
+  GestaoCadastrosRoute: GestaoCadastrosRoute,
+  GestaoCampanhasRoute: GestaoCampanhasRoute,
+  GestaoEstoqueRoute: GestaoEstoqueRoute,
+  GestaoLocaisDeColetaRoute: GestaoLocaisDeColetaRoute,
+  GestaoParceriasRoute: GestaoParceriasRoute,
+  GestaoUnidadesMoveisRoute: GestaoUnidadesMoveisRoute,
+  GestaoIndexRoute: GestaoIndexRoute,
+}
+
+const GestaoRouteRouteWithChildren = GestaoRouteRoute._addFileChildren(
+  GestaoRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CadastrosRoute: CadastrosRoute,
-  CampanhasRoute: CampanhasRoute,
-  EstoqueRoute: EstoqueRoute,
-  LocaisDeColetaRoute: LocaisDeColetaRoute,
-  ParceriasRoute: ParceriasRoute,
-  SobreRoute: SobreRoute,
-  UnidadesMoveisRoute: UnidadesMoveisRoute,
+  DoadorRouteRoute: DoadorRouteRouteWithChildren,
+  GestaoRouteRoute: GestaoRouteRouteWithChildren,
+  DoadorCadastroRoute: DoadorCadastroRoute,
+  DoadorLoginRoute: DoadorLoginRoute,
+  GestaoLoginRoute: GestaoLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

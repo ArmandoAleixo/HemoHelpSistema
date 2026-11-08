@@ -2,6 +2,9 @@ import { ObjectId } from "mongodb";
 import { relacionamentos } from "../config/relationships.js";
 import { obterColecao } from "../database/mongodb.js";
 
+// Campos que nunca devem sair pela API.
+const camposSensiveis = Object.freeze(["senhaHash"]);
+
 export function idValido(id) {
   return ObjectId.isValid(id);
 }
@@ -12,6 +15,7 @@ function relacionamentosDoRecurso(config) {
 
 function paraResposta(documento, config) {
   const { _id, ...dados } = documento;
+  for (const campo of camposSensiveis) delete dados[campo];
   for (const { campo } of relacionamentosDoRecurso(config)) {
     if (dados[campo] instanceof ObjectId) dados[campo] = String(dados[campo]);
   }
@@ -24,6 +28,8 @@ function limparDados(body, config) {
   delete dados.id;
   delete dados.createdAt;
   delete dados.updatedAt;
+  // A senha so pode ser gravada pelo servico de autenticacao, nunca pelo CRUD generico.
+  for (const campo of camposSensiveis) delete dados[campo];
   for (const { campo } of relacionamentosDoRecurso(config)) {
     if (dados[campo] !== undefined && dados[campo] !== null && dados[campo] !== "") {
       dados[campo] = new ObjectId(dados[campo]);
