@@ -11,19 +11,25 @@ backend/
     config/                Ambiente e recursos disponíveis
     database/              Conexão com o MongoDB
     http/                  Leitura e resposta HTTP
+    middlewares/           Middlewares (reservado para autenticação)
     repositories/          Operações de persistência
     routes/                Rotas e fluxo das requisições
+    services/              Regras de negócio (reservado)
+  tests/
+    features/              Especificações Gherkin
 
 frontend/
   src/
-    components/            Componentes visuais reutilizáveis
-    features/gestao/       Domínio da gestão de estoque e cadastros
+    components/ui/         Componentes de UI compartilhados
+    features/gestao/       Funcionalidade de gestão (componentes, hooks, contexto, domínio)
+    features/site/         Funcionalidade do site institucional (landing page)
+    hooks/                 Hooks compartilhados
     images/                Imagens e ícones da aplicação
     routes/                Páginas e rotas do frontend
     styles.css             Estilos globais
   public/                  Assets públicos
 
-backend/features/          Especificações Gherkin
+docs/                      Documentação do projeto
 ```
 
 ## Execução
