@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Eye, MoreHorizontal, Pencil, Plus, Search, SlidersHorizontal, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -37,11 +37,17 @@ type Modal = { tipo: "criar" | "editar" | "ver" | "excluir"; registro?: Registro
 
 export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
   const area = areas.find((item) => item.key === areaKey);
-  const { dados, salvar, excluir } = useDados();
+  const { dados, salvar, excluir, recarregar } = useDados();
   const [busca, setBusca] = useState("");
   const [filtro, setFiltro] = useState("Todos");
   const [modal, setModal] = useState<Modal>(null);
   const [salvando, setSalvando] = useState(false);
+
+  // Ao abrir a area, busca os dados de novo. Isso faz com que registros criados
+  // fora do painel (por exemplo, o cadastro do doador no site) apareçam aqui.
+  useEffect(() => {
+    void recarregar();
+  }, [recarregar]);
 
   const registros = dados[areaKey];
   const filtrados = useMemo(
@@ -162,6 +168,10 @@ export function CrudPage({ areaKey }: { areaKey: AreaKey }) {
                         />
                       ) : campo.key === "porcentagem" ? (
                         `${registro[campo.key] ?? "0"}%`
+                      ) : (campo.key === "cpf" || campo.key === "telefone") &&
+                        !registro[campo.key] ? (
+                        // CPF e telefone são opcionais no cadastro do site.
+                        "—"
                       ) : (
                         registro[campo.key]
                       )}

@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { LoadingScreen } from "@/features/gestao/components/loading-screen";
 import { TIPOS_SANGUINEOS } from "../domain/estoque";
 import type { AreaKey, Registro } from "../domain/models";
@@ -32,36 +32,58 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [dados, setDados] = useState(dadosIniciais);
   const [carregando, setCarregando] = useState(true);
 
+  const buscarDados = useCallback(async () => {
+    const entradas = await Promise.all(
+      (Object.keys(dadosIniciais) as AreaKey[]).map(async (area) => {
+        try {
+          const registros = await api.listar(area);
+          return [
+            area,
+            area === "estoque" ? combinarEstoqueComTiposPadrao(registros) : registros,
+          ] as const;
+        } catch (error) {
+          console.warn(`Nao foi possivel carregar ${area} da API.`, error);
+          return [area, dadosIniciais[area]] as const;
+        }
+      }),
+    );
+
+    return Object.fromEntries(entradas) as Record<AreaKey, Registro[]>;
+  }, []);
+
   useEffect(() => {
     let montado = true;
 
-    async function carregarDados() {
-      const entradas = await Promise.all(
-        (Object.keys(dadosIniciais) as AreaKey[]).map(async (area) => {
-          try {
-            const registros = await api.listar(area);
-            return [
-              area,
-              area === "estoque" ? combinarEstoqueComTiposPadrao(registros) : registros,
-            ] as const;
-          } catch (error) {
-            console.warn(`Nao foi possivel carregar ${area} da API.`, error);
-            return [area, dadosIniciais[area]] as const;
-          }
-        }),
-      );
+    void buscarDados().then((novosDados) => {
+      if (!montado) return;
+      setDados(novosDados);
+      setCarregando(false);
+    });
 
-      if (montado) {
-        setDados(Object.fromEntries(entradas) as Record<AreaKey, Registro[]>);
-        setCarregando(false);
-      }
-    }
-
-    void carregarDados();
     return () => {
       montado = false;
     };
-  }, []);
+  }, [buscarDados]);
+
+  // Recarrega quando o usuario volta para esta aba: assim um doador cadastrado
+  // pelo site (em outra aba) aparece na tabela sem precisar recarregar a pagina.
+  useEffect(() => {
+    function atualizarSeVisivel() {
+      if (document.visibilityState === "visible") void buscarDados().then(setDados);
+    }
+
+    window.addEventListener("focus", atualizarSeVisivel);
+    document.addEventListener("visibilitychange", atualizarSeVisivel);
+
+    return () => {
+      window.removeEventListener("focus", atualizarSeVisivel);
+      document.removeEventListener("visibilitychange", atualizarSeVisivel);
+    };
+  }, [buscarDados]);
+
+  const recarregar = useCallback(async () => {
+    setDados(await buscarDados());
+  }, [buscarDados]);
 
   if (carregando) return <LoadingScreen />;
 
@@ -88,5 +110,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
     }));
   }
 
-  return <DataContext.Provider value={{ dados, salvar, excluir }}>{children}</DataContext.Provider>;
+  return (
+    <DataContext.Provider value={{ dados, salvar, excluir, recarregar }}>
+      {children}
+    </DataContext.Provider>
+  );
 }

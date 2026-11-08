@@ -1,8 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { Droplets } from "lucide-react";
+import { Droplets, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useDoadorAuth } from "@/features/auth/use-doador-auth";
 
 export function DoadorHeader() {
+  const { doador, sair } = useDoadorAuth();
+  const primeiroNome = doador?.nome.trim().split(/\s+/)[0] ?? "Doador";
+
   return (
     <header className="sticky top-0 z-20 border-b border-border/70 bg-background/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-4">
@@ -19,6 +23,10 @@ export function DoadorHeader() {
         </Link>
 
         <div className="flex flex-wrap items-center gap-1 sm:gap-2">
+          <span className="mr-1 hidden text-sm text-muted-foreground md:inline">
+            Olá, <strong className="font-semibold text-foreground">{primeiroNome}</strong>
+          </span>
+
           <Button asChild variant="ghost" className="rounded-full px-4">
             <Link
               to="/doador"
@@ -35,6 +43,15 @@ export function DoadorHeader() {
           </Button>
           <Button asChild variant="outline" className="rounded-full border-border bg-card px-4">
             <Link to="/">Voltar ao site</Link>
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={sair}
+            className="rounded-full px-4 text-muted-foreground hover:text-foreground"
+          >
+            <LogOut className="size-4" />
+            Sair
           </Button>
         </div>
       </div>
