@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeartHandshake, Stethoscope } from "lucide-react";
-import { CrudPage } from "@/components/gestao/crud-page";
+import { CrudPage } from "@/features/gestao/components/crud-page";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/cadastros")({
