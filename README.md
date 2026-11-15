@@ -2,6 +2,8 @@
 
 Sistema privado para gestão de estoque de sangue, campanhas, locais de coleta, unidades móveis, parceiros, doadores e agentes de saúde.
 
+Este repositório contém apenas o painel administrativo (`/gestao`). O site público e a área do doador ficam no projeto **hemocentro-site**, que usa o mesmo MongoDB. Por isso a rota `/` redireciona para `/gestao/login`.
+
 ## Estrutura
 
 ```text
@@ -11,21 +13,19 @@ backend/
     config/                Ambiente e recursos disponíveis
     database/              Conexão com o MongoDB
     http/                  Leitura e resposta HTTP
-    middlewares/           Middlewares (reservado para autenticação)
     repositories/          Operações de persistência
     routes/                Rotas e fluxo das requisições
-    services/              Regras de negócio (reservado)
   tests/
     features/              Especificações Gherkin
 
 frontend/
   src/
     components/ui/         Componentes de UI compartilhados
+    features/auth/         Sessão provisória do painel
     features/gestao/       Funcionalidade de gestão (componentes, hooks, contexto, domínio)
-    features/site/         Funcionalidade do site institucional (landing page)
     hooks/                 Hooks compartilhados
     images/                Imagens e ícones da aplicação
-    routes/                Páginas e rotas do frontend
+    routes/                Páginas e rotas do painel
     styles.css             Estilos globais
   public/                  Assets públicos
 
