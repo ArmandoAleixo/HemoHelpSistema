@@ -11,7 +11,6 @@ import {
   validarDados,
   validarRelacionamentos,
 } from "../repositories/resource-repository.js";
-import { rotearDoador } from "./doador-router.js";
 
 function localizarRecurso(pathname) {
   return recursos.find(
@@ -29,12 +28,6 @@ export async function rotearApi(request, response) {
   if (request.method === "GET" && url.pathname === "/api/health") {
     await conectarBanco();
     responder(response, 200, { status: "ok", banco: "conectado" });
-    return;
-  }
-
-  // Autenticacao do doador (UC06), antes do CRUD generico de /api/doadores.
-  if (url.pathname === "/api/doador" || url.pathname.startsWith("/api/doador/")) {
-    await rotearDoador(request, response, url);
     return;
   }
 

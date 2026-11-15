@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Droplets, LockKeyhole, Mail } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
@@ -33,17 +33,14 @@ function LoginPage() {
 
   return (
     <main className="landing flex min-h-screen flex-col items-center justify-center bg-secondary/40 px-5 py-12">
-      <Link
-        to="/"
-        className="mb-8 flex items-center gap-2.5 font-bold tracking-tight text-foreground"
-      >
+      <div className="mb-8 flex items-center gap-2.5 font-bold tracking-tight text-foreground">
         <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-brand">
           <Droplets />
         </span>
         <span className="text-xl">
           Hemo<span className="text-primary">Help</span>
         </span>
-      </Link>
+      </div>
 
       <Card className="w-full max-w-md border-border shadow-panel">
         <CardHeader className="space-y-2">
@@ -100,10 +97,6 @@ function LoginPage() {
           </form>
         </CardContent>
       </Card>
-
-      <Button asChild variant="ghost" className="mt-4 rounded-full">
-        <Link to="/">Voltar ao site</Link>
-      </Button>
     </main>
   );
 }

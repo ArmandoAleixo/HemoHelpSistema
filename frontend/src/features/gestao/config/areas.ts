@@ -80,6 +80,9 @@ export const areas: Area[] = [
     descricao: "Cadastro de doadores, tipos sanguíneos e situação para novas doações",
     campos: [
       { key: "nome", label: "Nome" },
+      // O e-mail vem do cadastro feito no site (hemocentro-site); o senhaHash
+      // nunca sai da API, entao nao aparece aqui.
+      { key: "email", label: "E-mail" },
       { key: "cpf", label: "CPF" },
       { key: "tipo", label: "Tipo sanguíneo", options: TIPOS_SANGUINEOS },
       { key: "telefone", label: "Telefone" },

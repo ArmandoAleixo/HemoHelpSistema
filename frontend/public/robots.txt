@@ -1,14 +1,4 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
+# Este repositorio e apenas o painel administrativo (area privada).
+# Nada aqui deve ser indexado por buscadores.
 User-agent: *
-Allow: /
+Disallow: /
