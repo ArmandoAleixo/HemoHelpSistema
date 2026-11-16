@@ -19,12 +19,10 @@ function formatarHorario(valor: string) {
   return `${digitos.slice(0, 2)}:${digitos.slice(2, 4)} - ${digitos.slice(4, 6)}:${digitos.slice(6)}`;
 }
 
-function formatarPlaca(valor: string) {
-  const caracteres = valor
-    .toUpperCase()
-    .replace(/[^A-Z0-9]/g, "")
-    .slice(0, 7);
-  return caracteres.length <= 3 ? caracteres : `${caracteres.slice(0, 3)}-${caracteres.slice(3)}`;
+function formatarHora(valor: string) {
+  const digitos = apenasDigitos(valor).slice(0, 4);
+  if (digitos.length <= 2) return digitos;
+  return `${digitos.slice(0, 2)}:${digitos.slice(2)}`;
 }
 
 function formatarCpf(valor: string) {
@@ -45,16 +43,16 @@ function formatarTelefone(valor: string) {
 }
 
 export function formatarCampo(campo: string, valor: string) {
-  if (campo === "inicio") return formatarData(valor);
+  if (campo === "inicio" || campo === "fim") return formatarData(valor);
+  if (campo === "horarioInicio" || campo === "horarioFim") return formatarHora(valor);
   if (campo === "horario") return formatarHorario(valor);
-  if (campo === "placa") return formatarPlaca(valor);
   if (campo === "cpf") return formatarCpf(valor);
   if (campo === "telefone") return formatarTelefone(valor);
   return valor;
 }
 
 export function valorInicialCampo(campo: string, valor: string) {
-  if (campo === "inicio" && /^\d{4}-\d{2}-\d{2}$/.test(valor)) {
+  if ((campo === "inicio" || campo === "fim") && /^\d{4}-\d{2}-\d{2}$/.test(valor)) {
     const [ano, mes, dia] = valor.split("-");
     return `${dia}/${mes}/${ano}`;
   }

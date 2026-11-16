@@ -12,6 +12,7 @@ function relacionamentosDoRecurso(config) {
 
 function paraResposta(documento, config) {
   const { _id, ...dados } = documento;
+  if (config.colecao === "Usuarios") delete dados.senhaHash;
   for (const { campo } of relacionamentosDoRecurso(config)) {
     if (dados[campo] instanceof ObjectId) dados[campo] = String(dados[campo]);
   }

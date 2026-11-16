@@ -10,9 +10,23 @@ export const recursos = Object.freeze([
     camposObrigatorios: ["nome", "registro", "unidade", "funcao", "status"],
   },
   {
+    caminho: "/api/usuarios",
+    colecao: "Usuarios",
+    camposObrigatorios: ["nomeUsuario"],
+  },
+  {
     caminho: "/api/campanhas",
     colecao: "Campanhas",
-    camposObrigatorios: ["nome", "meta", "inicio", "status"],
+    camposObrigatorios: [
+      "nome",
+      "bairro",
+      "rua",
+      "inicio",
+      "fim",
+      "horarioInicio",
+      "horarioFim",
+      "status",
+    ],
   },
   {
     caminho: "/api/estoque",
@@ -25,13 +39,16 @@ export const recursos = Object.freeze([
     camposObrigatorios: ["nome", "endereco", "horario", "status"],
   },
   {
-    caminho: "/api/parcerias",
-    colecao: "Parceiros",
-    camposObrigatorios: ["nome", "tipo", "contato", "inicio", "status"],
-  },
-  {
     caminho: "/api/unidades-moveis",
     colecao: "UnidadesMoveis",
-    camposObrigatorios: ["nome", "placa", "responsavel", "bairro", "rua", "status"],
+    camposObrigatorios: [
+      "nome",
+      "responsavel",
+      "bairro",
+      "rua",
+      "horarioInicio",
+      "horarioFim",
+      "status",
+    ],
   },
 ]);

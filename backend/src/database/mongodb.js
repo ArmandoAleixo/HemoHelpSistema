@@ -35,6 +35,9 @@ async function garantirIndicesRelacionamentos(database) {
       database.collection(colecao).createIndex({ [campo]: 1 }),
     ),
   );
+  await database.collection("Usuarios").createIndex({ nomeUsuario: 1 }, { unique: true });
+  await database.collection("SessoesUsuarios").createIndex({ tokenHash: 1 }, { unique: true });
+  await database.collection("SessoesUsuarios").createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 }
 
 export async function conectarBanco() {

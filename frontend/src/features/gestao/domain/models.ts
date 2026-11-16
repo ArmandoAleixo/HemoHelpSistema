@@ -1,12 +1,12 @@
 export type Registro = { id: string; [key: string]: string };
 
 export type AreaKey =
-  "estoque" | "unidades" | "locais" | "parcerias" | "campanhas" | "doadores" | "agentes";
+  "estoque" | "unidades" | "locais" | "campanhas" | "doadores" | "agentes" | "usuarios";
 
 export type Campo = {
   key: string;
   label: string;
-  type?: "text" | "number" | "date";
+  type?: "text" | "number" | "date" | "file" | "password";
   options?: string[];
 };
 

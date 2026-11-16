@@ -10,9 +10,8 @@ import {
 import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { AppShell } from "@/components/gestao/app-shell";
+import { AccessGate } from "@/components/gestao/access-gate";
 import { Toaster } from "@/components/ui/sonner";
-import { DataProvider } from "@/features/gestao/context/data-provider";
 
 function NotFoundComponent() {
   return (
@@ -119,10 +118,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <DataProvider>
-        <AppShell><Outlet /></AppShell>
-        <Toaster />
-      </DataProvider>
+      <AccessGate>
+        <Outlet />
+      </AccessGate>
+      <Toaster />
     </QueryClientProvider>
   );
 }

@@ -7,11 +7,6 @@ export const relacionamentos = Object.freeze([
   },
   {
     colecao: "Campanhas",
-    campo: "parceiroId",
-    referencia: "Parceiros",
-  },
-  {
-    colecao: "Campanhas",
     campo: "unidadeMovelId",
     referencia: "UnidadesMoveis",
   },

@@ -35,6 +35,8 @@ npm run dev
 
 O frontend usa `VITE_API_URL` e o backend usa `MONGODB_URI`, `MONGODB_DB` e `PORT` definidos no arquivo `.env`.
 
+O painel é aberto diretamente, sem autenticação de usuário. Em produção, configure `FRONTEND_ORIGIN` com a origem exata do frontend.
+
 
 ## Configuração do banco de dados
 

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { HeartHandshake, Stethoscope } from "lucide-react";
+import { HeartHandshake, Stethoscope, Users } from "lucide-react";
 import { CrudPage } from "@/components/gestao/crud-page";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -22,10 +22,10 @@ function CadastrosPage() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Cadastros</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Gerencie doadores e agentes de saude em um unico espaco.
+            Gerencie doadores, agentes de saúde e usuários do sistema.
           </p>
         </div>
-        <TabsList className="grid w-full grid-cols-2 sm:w-auto">
+        <TabsList className="grid w-full grid-cols-3 sm:w-auto">
           <TabsTrigger value="doadores" className="gap-2">
             <HeartHandshake className="size-4" />
             Doadores
@@ -33,6 +33,10 @@ function CadastrosPage() {
           <TabsTrigger value="agentes" className="gap-2">
             <Stethoscope className="size-4" />
             Agentes
+          </TabsTrigger>
+          <TabsTrigger value="usuarios" className="gap-2">
+            <Users className="size-4" />
+            Usuários
           </TabsTrigger>
         </TabsList>
       </div>
@@ -42,6 +46,9 @@ function CadastrosPage() {
       </TabsContent>
       <TabsContent value="agentes" className="mt-0">
         <CrudPage areaKey="agentes" />
+      </TabsContent>
+      <TabsContent value="usuarios" className="mt-0">
+        <CrudPage areaKey="usuarios" />
       </TabsContent>
     </Tabs>
   );

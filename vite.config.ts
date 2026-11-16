@@ -15,7 +15,6 @@ export default defineConfig({
       router: {
         routesDirectory: "routes",
         generatedRouteTree: "routeTree.gen.ts",
-        autoCodeSplitting: true,
       },
       server: { entry: "server" },
     }),
