@@ -7,6 +7,7 @@ import { LoadingScreen } from "@/components/gestao/loading-screen";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import FundoMedico from "@/images/Fundo Médico Minimalista com Ondas Vermelhas.png";
 import { DataProvider } from "@/features/gestao/context/data-provider";
 import {
   entrar,
@@ -43,15 +44,19 @@ function LoginPage({
 }) {
   const [senhaVisivel, setSenhaVisivel] = useState(false);
   return (
-    <main className="flex min-h-[100svh] items-center justify-center bg-background px-5 py-10">
+    <main
+      className="relative isolate flex min-h-[100svh] items-center justify-center bg-cover bg-center px-5 py-10"
+      style={{ backgroundImage: `url("${FundoMedico}")` }}
+    >
+      <div className="absolute inset-0 -z-10 bg-background/20" aria-hidden="true" />
       <div className="w-full max-w-[400px]">
         <Brand />
-        <div className="mt-10 rounded-xl border bg-card p-6 sm:p-8">
+        <div className="mt-10 rounded-xl border border-white/70 bg-card/95 p-6 shadow-xl backdrop-blur-sm sm:p-8">
           <h1 className="text-2xl font-semibold tracking-tight">Entrar</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Use seu nome de usuário e senha.</p>
+          <p className="mt-2 text-sm text-muted-foreground">Informe suas credenciais para continuar.</p>
           <form onSubmit={onSubmit} className="mt-7 space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="nomeUsuario">Nome de usuário</Label>
+              <Label htmlFor="nomeUsuario">Usuário</Label>
               <Input
                 id="nomeUsuario"
                 name="nomeUsuario"
